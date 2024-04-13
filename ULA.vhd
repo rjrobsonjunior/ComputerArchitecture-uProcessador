@@ -32,6 +32,12 @@ begin
                      andResult when selector="11" else
                      "00000000000000000";
 
+    bigger <= "1" when inputA > inputB else
+              "0";
+
+    smaller <= "1" when inputA < inputB else
+    "0";
+
     carry <= parcialResult(16 downto 16);
     overflow <= parcialResult(16 downto 16);
     outResult <= parcialResult(15 downto 0);
