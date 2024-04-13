@@ -5,7 +5,7 @@ ghdl -a ULA.vhd
 ghdl -e ULA
 
 # Run the simULAtion and generate the wave file
-ghdl -r --wave=ULA.ghw ULA
+ghdl ULA -r --wave=ULA.ghw 
 
 # Open the wave file using GtkWave
 gtkwave ULA.ghw

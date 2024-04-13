@@ -1,0 +1,13 @@
+Instruções OBRIGATÓRIAS a serem usadas na sua validação:
+{'ADD ctes': 'ADD apenas entre registradores',
+ 'ADD ops': 'ADD com dois operandos apenas',
+ 'Acumulador ou não': 'ULA com acumulador',
+ 'Carga de constantes': 'Carrega diretamente com LD sem somar',
+ 'Comparações': 'CMP presente',
+ 'Flags obrigatórias': ['Overflow', 'Carry', 'Negative'],
+ 'SUB ctes': 'SUB apenas entre registradores',
+ 'SUB ops': 'SUB com dois operandos apenas',
+ 'Saltos': 'Incondicional é absoluto e condicional é relativo',
+ 'Subtração': 'SUB sem borrow',
+ 'Validação -- complicações': 'A constante 7384 é número primo?',
+ 'Validação -- final do loop': 'Limite superior usando CMP'}
