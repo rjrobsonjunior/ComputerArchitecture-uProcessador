@@ -7,7 +7,7 @@ entity ULA is
         selector : in unsigned(1 downto 0);
         inputA, inputB : in unsigned(15 downto 0);
         outResult : out unsigned(15 downto 0);
-        carry, overflow, bigger, smaller : out unsigned(0 downto 0) 
+        carry, overflow, bigger, smaller : out std_logic
     );
 end entity ULA;
 
@@ -32,13 +32,11 @@ begin
                      andResult when selector="11" else
                      "00000000000000000";
 
-    bigger <= "1" when inputA > inputB else
-              "0";
+    bigger <= '1' when inputA > inputB else '0';
 
-    smaller <= "1" when inputA < inputB else
-    "0";
+    smaller <= '1' when inputA < inputB else '0';
 
-    carry <= parcialResult(16 downto 16);
-    overflow <= parcialResult(16 downto 16);
+    carry <= parcialResult(16);
+    overflow <= parcialResult(16);
     outResult <= parcialResult(15 downto 0);
 end ULA_arch;
