@@ -11,8 +11,16 @@ entity ULA is
     );
 end entity ULA;
 
-architecture ULA_arch of ULA is
+----------------------
+------ selector------
+-- 00 sum
+-- 01 subtract
+-- 10 xor
+-- 11 and
+----------------------
 
+architecture ULA_arch of ULA is
+-- x""
 signal parcialResult :  unsigned (16 downto 0) := "00000000000000000";
 signal sumResult : unsigned (16 downto 0) := "00000000000000000";
 signal subResult : unsigned (16 downto 0) := "00000000000000000";
@@ -21,10 +29,10 @@ signal andResult : unsigned (16 downto 0) := "00000000000000000";
 
 begin
 
-    sumResult <= inputA + inputB;
-    subResult <= inputA - inputB;
-    xorResult <= inputA xor inputB;
-    andResult <= inputA and inputB;
+    sumResult <= ('0'&inputA) + ('0'&inputB);
+    subResult <= ('0'&inputA) - ('0'&inputB);
+    xorResult <= '0'&inputA xor '0'&inputB;
+    andResult <= '0'&inputA and '0'&inputB;
 
     parcialResult <= sumResult when selector="00" else
                      subResult when selector="01" else
