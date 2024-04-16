@@ -31,8 +31,8 @@ begin
 
     sumResult <= ('0'&inputA) + ('0'&inputB);
     subResult <= ('0'&inputA) - ('0'&inputB);
-    xorResult <= '0'&inputA xor '0'&inputB;
-    andResult <= '0'&inputA and '0'&inputB;
+    xorResult <= ('0'&inputA) xor ('0'&inputB);
+    andResult <= ('0'&inputA) and ('0'&inputB);
 
     parcialResult <= sumResult when selector="00" else
                      subResult when selector="01" else
