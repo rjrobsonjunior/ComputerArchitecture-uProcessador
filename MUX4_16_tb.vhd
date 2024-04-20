@@ -16,9 +16,9 @@ architecture rtl of MUX4_16_tb is
     end component;
     
     signal selector_tb : unsigned (3 downto 0);
-    signal inMUX_tb      : in unsigned ( 255 downto 0); 
-    signal outMUX_tb     : out unsigned (15 downto 0);
-    
+    signal inMUX_tb : unsigned ( 255 downto 0); 
+    signal outMUX_tb : unsigned (15 downto 0);
+
 begin
     mux : MUX4_16 port map (
         selector  => selector_tb,
@@ -27,34 +27,18 @@ begin
     );
     process 
     begin
-        
+        selector_tb <= x"0";
+        inMUX_tb <= x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
         wait for 50 ns;
-        
+        selector_tb <= x"2";
         wait for 50 ns;
-        
+        selector_tb <= x"4";
         wait for 50 ns;
-        
+        selector_tb <= x"7";
         wait for 50 ns;
-        
+        selector_tb <= x"A";
         wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
-        
-        wait for 50 ns;
+        selector_tb <= x"F";
         wait;
     end process;
     
