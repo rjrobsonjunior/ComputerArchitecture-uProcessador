@@ -9,14 +9,14 @@ architecture rtl of MUX4_16_tb is
 
     component MUX4_16 is
         port (
-            selector   : in unsigned (3 downto 0);
-            inMUX      : in unsigned ( 255 downto 0); 
-            outMUX     : out unsigned (15 downto 0) 
+            selector   : in unsigned (2 downto 0);
+        inMUX      : in unsigned ( 127 downto 0); 
+        outMUX     : out unsigned (15 downto 0) 
         );
     end component;
     
-    signal selector_tb : unsigned (3 downto 0);
-    signal inMUX_tb : unsigned ( 255 downto 0); 
+    signal selector_tb : unsigned (2 downto 0);
+    signal inMUX_tb : unsigned ( 127 downto 0); 
     signal outMUX_tb : unsigned (15 downto 0);
 
 begin
@@ -27,18 +27,18 @@ begin
     );
     process 
     begin
-        selector_tb <= x"0";
-        inMUX_tb <= x"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+        selector_tb <= "000";
+        inMUX_tb <= x"0123456789ABCDEF0123456789ABCDEF";
         wait for 50 ns;
-        selector_tb <= x"2";
+        selector_tb <= "001";
         wait for 50 ns;
-        selector_tb <= x"4";
+        selector_tb <= "010";
         wait for 50 ns;
-        selector_tb <= x"7";
+        selector_tb <= "100";
         wait for 50 ns;
-        selector_tb <= x"A";
+        selector_tb <= "110";
         wait for 50 ns;
-        selector_tb <= x"F";
+        selector_tb <= "111";
         wait;
     end process;
     
