@@ -32,8 +32,6 @@ architecture rtl of RegisterBank is
 
     signal wren_register : std_logic_vector (7 downto 0);
     signal outEightRegisters: unsigned ( 127 downto 0);
-    type t_registers is array (natural range <>) of reg16bits;
-    signal registers : t_registers(7 downto 0);
 begin
     wren_register(0) <= '0'; -- Register zero cannot be written to
     wren_register(1) <= (not writeRegister(0)) and (not writeRegister(1)) and ( writeRegister(2));    --1
@@ -46,7 +44,7 @@ begin
 
     gen00:for i in 0 to 7 generate
     begin
-		registers(i) <= reg16bits port map (
+		registers(i) : reg16bits port map (
             clk      => clk,
             rst      => rst,
             wr_en    => wren_register(i),
