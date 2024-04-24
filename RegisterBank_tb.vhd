@@ -68,10 +68,14 @@ begin
     process
     begin
         wait for 200 ns;
-        wren <= '0';
+        wren <= '1';
         writeRegister <= "001";
         datawr <= X"6969";
+
+        wait for 200 ns;
         wren <= '1';
+        writeRegister <= "011";
+        datawr <= X"2469";
 
         wait for 100 ns;
         wren <= '0';
