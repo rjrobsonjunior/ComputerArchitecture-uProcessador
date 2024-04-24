@@ -7,7 +7,8 @@ entity RegisterBank is
         address1, address2, writeRegister: in unsigned(2 downto 0);
         datawr : in unsigned(15 downto 0);
         wren, clk, rst: in std_logic;
-        data1, data2 : out unsigned(15 downto 0)
+        data1, data2 : out unsigned(15 downto 0);
+        outEightRegistersSignal : out unsigned ( 127 downto 0)
     );
 end entity RegisterBank;
 
@@ -34,13 +35,13 @@ architecture rtl of RegisterBank is
     signal outEightRegisters: unsigned ( 127 downto 0);
 begin
     wren_register(0) <= '0'; -- Register zero cannot be written to
-    wren_register(1) <= (not writeRegister(0)) and (not writeRegister(1)) and ( writeRegister(2));    --1
-    wren_register(2) <= (not writeRegister(0)) and ( writeRegister(1)) and (not writeRegister(2));    --2
-    wren_register(3) <= (not writeRegister(0)) and (writeRegister(1)) and (writeRegister(2));         --3
-    wren_register(4) <= ( writeRegister(0)) and ( not writeRegister(1)) and (not writeRegister(2));   --4
-    wren_register(5) <= ( writeRegister(0)) and (not writeRegister(1)) and (writeRegister(2));        --5
-    wren_register(6) <= (writeRegister(0)) and (writeRegister(1)) and (not writeRegister(2));         --6
-    wren_register(7) <= (writeRegister(0)) and (writeRegister(1)) and (writeRegister(2));             --7
+    wren_register(1) <= (not writeRegister(2)) and (not writeRegister(1)) and ( writeRegister(0));    --1
+    wren_register(2) <= (not writeRegister(2)) and ( writeRegister(1)) and (not writeRegister(0));    --2
+    wren_register(3) <= (not writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));         --3
+    wren_register(4) <= ( writeRegister(2)) and ( not writeRegister(1)) and (not writeRegister(0));   --4
+    wren_register(5) <= ( writeRegister(2)) and (not writeRegister(1)) and (writeRegister(0));        --5
+    wren_register(6) <= (writeRegister(2)) and (writeRegister(1)) and (not writeRegister(0));         --6
+    wren_register(7) <= (writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));             --7
 
     gen00:for i in 0 to 7 generate
     begin
@@ -52,6 +53,8 @@ begin
             data_out => outEightRegisters( (16*(i+1))-1 downto 16*i )   
         );   
     end generate gen00;
+
+    outEightRegistersSignal <= outEightRegisters;
 
     mux1 : MUX4_16 port map (
         selector => address1,

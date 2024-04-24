@@ -6,8 +6,8 @@ ghdl -e ULA
 #ghdl -a ULA_tb.vhd
 #ghdl -e ULA_tb
 
-ghdl -a reg16bits.vhd
-ghdl -e reg16bits.vhd
+#ghdl -a reg16bits.vhd
+#ghdl -e reg16bits.vhd
 #ghdl -a reg16bits_tb.vhd
 #ghdl -e reg16bits_tb.vhd
 

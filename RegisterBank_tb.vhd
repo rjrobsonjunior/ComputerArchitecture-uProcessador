@@ -15,7 +15,8 @@ architecture impl of RegisterBank_tb is
               clk           : in std_logic;
               rst           : in std_logic;
               data1         : out unsigned(15 downto 0);
-              data2         : out unsigned(15 downto 0)
+              data2         : out unsigned(15 downto 0);
+              outEightRegistersSignal : out unsigned ( 127 downto 0)
             );
     end component;
 
@@ -24,6 +25,7 @@ architecture impl of RegisterBank_tb is
     signal datawr             : unsigned(15 downto 0);
     signal wren, clk, rst     : std_logic;
     signal data1, data2       : unsigned(15 downto 0);
+    signal outEightRegistersSignal : unsigned(127 downto 0);
     constant period_time      : time := 100 ns;
     signal finished           : std_logic := '0';
 
@@ -36,7 +38,8 @@ begin
                                 clk           => clk,
                                 rst           => rst,
                                 data1         => data1,
-                                data2         => data2
+                                data2         => data2,
+                                outEightRegistersSignal => outEightRegistersSignal 
                               );
 
     rst_global: process
@@ -71,21 +74,24 @@ begin
         wren <= '1';
         writeRegister <= "001";
         datawr <= X"6969";
+        address1 <= "001";
+        address2 <= "000";
 
         wait for 200 ns;
         wren <= '1';
         writeRegister <= "011";
         datawr <= X"2469";
+        address1 <= "001";
+        address2 <= "011";
 
         wait for 100 ns;
         wren <= '0';
         address1 <= "001";
-        address2 <= "000";
-
+        address2 <= "011";
 
         wait for 100 ns;
         wren <= '0';
-        address1 <= "000";
+        address1 <= "011";
         address2 <= "001";
 
         wait for 100 ns;
@@ -99,12 +105,21 @@ begin
         address1 <= "010";
         address2 <= "000";
 
-        wait for 100 ns;
-        wren <= '0';
+        wait for 200 ns;
+        wren <= '1';
+        writeRegister <= "111";
+        datawr <= X"2469";
+        address1 <= "001";
+        address2 <= "011";
 
         wait for 100 ns;
         wren <= '0';
-
+        address1 <= "010";
+        address2 <= "111";
+        wait for 100 ns;
+        wren <= '0';
+        address1 <= "001";
+        address2 <= "111";
         wait for 100 ns;
         wren <= '0';
 
