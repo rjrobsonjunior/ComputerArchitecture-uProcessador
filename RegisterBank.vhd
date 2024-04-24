@@ -44,7 +44,7 @@ begin
 
     gen00:for i in 0 to 7 generate
     begin
-		registers(i) : reg16bits port map (
+		registers00 : reg16bits port map (
             clk      => clk,
             rst      => rst,
             wr_en    => wren_register(i),

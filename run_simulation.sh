@@ -14,8 +14,8 @@ ghdl -e reg16bits.vhd
 ghdl -a MUX4_16.vhd
 ghdl -e MUX4_16
 
-#ghdl -a RegisterBank.vhd
-#ghdl -e RegisterBank
+ghdl -a RegisterBank.vhd
+ghdl -e RegisterBank
 # Run the simULAtion and generate the wave file
 #ghdl -r ULA_tb --wave=ULA_tb.ghw 
 
