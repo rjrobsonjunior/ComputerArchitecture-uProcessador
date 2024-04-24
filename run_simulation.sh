@@ -14,6 +14,9 @@ ghdl -e reg16bits
 ghdl -a MUX4_16.vhd
 ghdl -e MUX4_16
 
+ghdl -a MUX2_16.vhd
+ghdl -e MUX2_16
+
 ghdl -a RegisterBank.vhd
 ghdl -e RegisterBank
 
