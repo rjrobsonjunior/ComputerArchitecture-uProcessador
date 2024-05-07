@@ -11,17 +11,17 @@ end entity;
 
 
 architecture a_stateMachine of stateMachine is
-    signal state0 : std_logic;
+    signal state0 : std_logic := '0';
 begin
-    state0 <= state;
+    state <= state0;
     process(clk,rst)
-    begin                
+    begin
         if rst='1' then
-            state <=  '0';
-        end if;
-        if rising_edge(clk) then
-            state<= not state0;
+            state0 <= '0';
+        elsif rising_edge(clk) then
+            state0 <= not state0;
         end if;
     end process;
+    state <= state0;
 
 end architecture;

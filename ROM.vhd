@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity ROM is
     port (
         clk     : in std_logic;
-        adress  : in unsigned(6 downto 0);
+        address  : in unsigned(6 downto 0);
         data    : out unsigned(11 downto 0)
     );
 end entity;
@@ -31,7 +31,7 @@ begin
     process(clk)
     begin
         if(rising_edge(clk)) then
-            data <= rom_data(to_integer(adress));
+            data <= rom_data(to_integer(address));
         end if;
     end process;
 
