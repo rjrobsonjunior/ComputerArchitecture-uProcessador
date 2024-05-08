@@ -13,18 +13,17 @@ end entity;
 
 architecture a_stateMachine of stateMachine is
    signal registro: unsigned(15 downto 0);
-   signal state0 : std_logic;
+   signal tmp : std_logic;
 begin
-   state0 <= state;
    process(clk,rst,wr_en)
    begin                
       if rst='1' then
-         state <=  '0';
+         tmp <=  '0';
       elsif wr_en='1' then
          if rising_edge(clk) then
-            state<= not state0;
+            tmp<= not tmp;
          end if;
       end if;
    end process;
-   
+   state <= tmp;  
 end architecture;
