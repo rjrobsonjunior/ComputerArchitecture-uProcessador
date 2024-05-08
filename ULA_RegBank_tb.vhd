@@ -96,7 +96,7 @@ begin
 
     process
     begin
-        wait for   * 2;
+        wait for period_time * 2;
         rb_address1 <= "000";
         rb_address2 <= "000";
         ula_mux_input <= X"0004";
