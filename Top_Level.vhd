@@ -38,11 +38,17 @@ architecture rtl of Top_Level is
     end component;
 
     signal jump_flag_s : std_logic := '0';
-    signal jump_addr_s : unsigned(6 downto 0);
+    signal jump_addr_s : unsigned(6 downto 0) := "0000000";
 
     signal current_addr_s : unsigned(6 downto 0);
 
 begin
+
+    ROM_component : ROM port map (
+        clk => clk,
+        address => current_addr_s,
+        data => data
+    );
 
     PC_Adder_component : PC_Adder port map (
         clk => clk,
@@ -51,12 +57,6 @@ begin
         PC_reset => PC_reset,
         PC_wr_en => PC_wr_en,
         PC => current_addr_s
-    );
-
-    ROM_component : ROM port map (
-        clk => clk,
-        address => current_addr_s,
-        data => data
     );
 
 end architecture;
