@@ -1,4 +1,4 @@
-Instruções OBRIGATÓRIAS a serem usadas na sua validação:
+ Instruções OBRIGATÓRIAS a serem usadas na sua validação:
 {'ADD ctes': 'ADD apenas entre registradores',
  'ADD ops': 'ADD com dois operandos apenas',
  'Acumulador ou não': 'ULA com acumulador',

@@ -6,26 +6,28 @@ entity ROM is
     port (
         clk     : in std_logic;
         address : in unsigned(6 downto 0);
-        data    : out unsigned(13 downto 0)
+        data    : out unsigned(15 downto 0)
     );
 end entity;
 
 architecture rtl of ROM is
 
-    type mem is array (0 to 127) of unsigned(13  downto 0);
+    type mem is array (0 to 127) of unsigned(15  downto 0);
     constant rom_data : mem := (
-        0  => "00000000000010", --0002
-        1  => "00100000000000", --0800
-        2  => "00000000000000", --0000
-        3  => "11110000101000", --0000
-        4  => "11010000000000", --3C00
-        5  => "00000000000010", --0002
-        6  => "11110001000011", --0F03
-        7  => "00000000000010", --0002
-        8  => "11110000110011", --0002
-        9  => "00000000000000", --0000
-        10 => "00000000000000", --0000
-        11 => "00000010010110",
+        0  => x"FFFF",
+        1  => x"0000",
+        2  => x"FFFF",
+        3  => x"0000",
+        4  => x"FFFF",
+        5  => x"0000",
+        6  => x"FFFF",
+        7  => x"0000",
+        8  => x"FFFF",
+        9  => x"0000",
+        10  => x"FFFF",
+        11  => x"0000",
+        12  => x"FFFF",
+        13  => x"0000",
         others => (others => '0')
     );
 begin
