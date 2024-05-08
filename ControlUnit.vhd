@@ -7,7 +7,7 @@ entity ControlUnit is
         clk   : in std_logic;
         instruction : in unsigned(13 downto 0);
         PCclock, ROMclock : out std_logic;
-        jump : out std_logic;
+        jump : out std_logic
     );
 end entity ControlUnit;
 

@@ -2,36 +2,40 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity ProgramCounter_tb is
+entity PC_Adder_tb is
 end entity;
 
-architecture impl of ProgramCounter_tb is
-    component ControlUnit is
+architecture impl of PC_Adder_tb is
+    component PC_Adder is
         port(
-            clk   : in std_logic;
-            instruction : in unsigned(13 downto 0);
-            PCclock, ROMclock : out std_logic;
-            jump : out std_logic;
-            
+            clk : in std_logic;
+
+            jump_flag : in std_logic;
+            jump_addr : in unsigned(6 downto 0);
+
             PC_reset : in std_logic;
+            PC_wr_en : in std_logic;
             PC : out unsigned(6 downto 0)
-            );
+        );
     end component;
 
-    signal clk, PC_reset : std_logic;
+    signal clk : std_logic;
+    signal PC_reset : std_logic := '0';
+    signal PC_wr_en : std_logic := '1';
+    signal jump_flag : std_logic := '0';
+    signal jump_addr : unsigned(6 downto 0);
+
     constant period_time : time := 100 ns;
     signal finished : std_logic := '0';
 
-    signal instruction : unsigned(13 downto 0) := (others => '0');
-    signal PCclock, ROMclock: std_logic := '0';
 begin
 
-    ControlUnit_component : ControlUnit port map (
+    PC_Adder_component : PC_Adder port map (
         clk => clk,
-        instruction => instruction,
-        PCclock => PCclock,
-        ROMclock => ROMclock,
-        PC_reset => PC_reset
+        jump_flag => jump_flag,
+        jump_addr => jump_addr,
+        PC_reset => PC_reset,
+        PC_wr_en => PC_wr_en
     );
 
 
