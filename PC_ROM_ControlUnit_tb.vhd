@@ -2,19 +2,19 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity PC_ROM_tb is
+entity PC_ROM_ControlUnit_tb is
 end entity;
 
-architecture rtl of PC_ROM_tb is
+architecture rtl of PC_ROM_ControlUnit_tb is
+    
+    component Top_Level
+        port(
+            clk : in std_logic;
+            
+            PC_reset : in std_logic;
 
-    component Top_Level is
-    port(
-        clk : in std_logic;
-        
-        PC_reset : in std_logic;
-
-        data: out unsigned(15 downto 0)
-    );
+            data : out unsigned(15 downto 0)
+        );
     end component;
 
     signal PC_reset_s : std_logic := '0';
@@ -22,10 +22,10 @@ architecture rtl of PC_ROM_tb is
     signal clk : std_logic;
     constant period_time : time := 100 ns;
     signal finished : std_logic := '0';
-
 begin
-
-    uut : Top_Level port map(
+    
+    uut : Top_Level
+    port map (
         clk => clk,
         PC_reset => PC_reset_s
     );
@@ -54,8 +54,6 @@ begin
     process
     begin
         wait for period_time * 2;
-        
-        wait for period_time;
 
         wait for period_time;
 
@@ -67,6 +65,8 @@ begin
 
         wait for period_time;
 
-    wait;
-end process;
+        wait for period_time;
+
+        wait;
+    end process;
 end architecture;

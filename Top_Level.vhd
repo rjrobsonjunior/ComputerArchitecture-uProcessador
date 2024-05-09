@@ -2,14 +2,14 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+
 entity Top_Level is
     port(
         clk : in std_logic;
         
         PC_reset : in std_logic;
-        PC_wr_en : in std_logic;
 
-        data: out unsigned(15 downto 0)
+        data : out unsigned(15 downto 0)
     );
 end entity;
 
@@ -37,26 +37,45 @@ architecture rtl of Top_Level is
         );
     end component;
 
+    component ControlUnit is
+        port(
+            clk   : in std_logic;
+            instruction : in unsigned(15 downto 0);
+            jump : out std_logic;
+            PCWrite : out std_logic
+        );
+    end component;
+
     signal jump_flag_s : std_logic := '0';
     signal jump_addr_s : unsigned(6 downto 0) := "0000000";
+    signal PC_wr_en_s : std_logic;
 
     signal current_addr_s : unsigned(6 downto 0);
+    signal data_s : unsigned(15 downto 0);
 
 begin
-
-    ROM_component : ROM port map (
-        clk => clk,
-        address => current_addr_s,
-        data => data
-    );
-
     PC_Adder_component : PC_Adder port map (
         clk => clk,
         jump_flag => jump_flag_s,
         jump_addr => jump_addr_s,
         PC_reset => PC_reset,
-        PC_wr_en => PC_wr_en,
+        PC_wr_en => PC_wr_en_s,
         PC => current_addr_s
     );
+
+    ROM_component : ROM port map (
+        clk => clk,
+        address => current_addr_s,
+        data => data_s
+    );
+
+    ControlUnit_component : ControlUnit port map (
+        clk => clk,
+        instruction => data_s,
+        -- jump => 
+        PCWrite => PC_wr_en_s
+    );
+
+    data <= data_s;
 
 end architecture;
