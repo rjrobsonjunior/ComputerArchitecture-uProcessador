@@ -42,12 +42,13 @@ architecture rtl of Top_Level is
             clk   : in std_logic;
             instruction : in unsigned(15 downto 0);
             jump : out std_logic;
+            jump_addr : out unsigned(6 downto 0);
             PCWrite : out std_logic
         );
     end component;
 
-    signal jump_flag_s : std_logic := '0';
-    signal jump_addr_s : unsigned(6 downto 0) := "0000000";
+    signal jump_flag_s : std_logic;
+    signal jump_addr_s : unsigned(6 downto 0);
     signal PC_wr_en_s : std_logic;
 
     signal current_addr_s : unsigned(6 downto 0);
@@ -72,7 +73,8 @@ begin
     ControlUnit_component : ControlUnit port map (
         clk => clk,
         instruction => data_s,
-        -- jump => 
+        jump => jump_flag_s,
+        jump_addr => jump_addr_s,
         PCWrite => PC_wr_en_s
     );
 

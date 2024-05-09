@@ -15,19 +15,19 @@ architecture rtl of ROM is
     type mem is array (0 to 127) of unsigned(15  downto 0);
     constant rom_data : mem := (
         0  => x"0000",
-        1  => x"1111",
+        1  => x"F003",
         2  => x"2222",
         3  => x"3333",
-        4  => x"4444",
+        4  => x"F008",
         5  => x"5555",
-        6  => x"6666",
-        7  => x"7777",
-        8  => x"8888",
+        6  => x"F009",
+        7  => x"F005",
+        8  => x"F007",
         9  => x"9999",
-        10  => x"AAAA",
-        11  => x"BBBB",
-        12  => x"CCCC",
-        13  => x"DDDD",
+        10 => x"F000",
+        11 => x"0000",
+        12 => x"0000",
+        13 => x"0000",
         others => (others => '0')
     );
 begin
