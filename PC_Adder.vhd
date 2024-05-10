@@ -43,4 +43,6 @@ begin
     PC_datain_s <= PC_counter_s + "0000001" when jump_flag = '0' else
                    jump_addr when jump_flag = '1';
 
+    PC <= PC_counter_s;
+
 end architecture;

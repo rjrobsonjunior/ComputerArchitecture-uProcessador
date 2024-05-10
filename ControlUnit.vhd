@@ -5,9 +5,10 @@ use ieee.numeric_std.all;
 entity ControlUnit is
     port (
         clk   : in std_logic;
-        instruction : in unsigned(13 downto 0);
-        PCclock, ROMclock : out std_logic;
-        jump : out std_logic
+        instruction : in unsigned(15 downto 0);
+        jump : out std_logic;
+        jump_addr : out unsigned(6 downto 0);
+        PCWrite : out std_logic
     );
 end entity ControlUnit;
 
@@ -29,10 +30,10 @@ begin
         state => state
     );
 
-    opcode <= instruction(13 downto 10);
+    opcode <= instruction(15 downto 12);
     jump <= '1' when opcode = "1111" else '0';
+    jump_addr <= instruction(6 downto 0);
     
-    PCclock <= not state;
-    ROMclock <= state;
+    PCWrite <= '1' when state = '1' else '0';
 
 end architecture;
