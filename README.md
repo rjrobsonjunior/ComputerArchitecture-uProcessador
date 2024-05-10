@@ -9,16 +9,31 @@
 | 1        | --
 | 2..      | --
 
+## Formatos das Intruções
+I: 
+| Imm(8)  | rd(3) | Opcode(5)
+| --      | --    | --
+
+R:
+| Free(2) | rs2(3) | rs1(3)  | rd(3) | Opcode(5)
+| --      |--      | --      | --    | --
+
+B:
+| address(5) | rs2(3) | rs1(3)  | Opcode(5)
+| --         |--      | --      | --
 ## Instruções
 
-Os opcodes são formados pelos 5 bits menos significativos. Os 6 bits mais significativos é o operando. Segue tabela de instruções:
-
-| Instrução | Opcode | Operando | Descrição     | status
-| -         | -      | -        | -             | -
-| adc zpg   | 65     | adr      | A += mem[adr] | ok
-| adc imm   | 69     | val      | A += val      | ok
-| sbc imm   | E9     | val      | A -= val      | ok
-| sta       | 85     | adr      | mem[adr] = A  | ok
-| lda imm   | A9     | val      | A = val       | ok
-| lda zpg   | A5     | adr      | A = mem[adr]  | ok
-| jmp       | 4C     | adr      | PC = adr      | ok
+Os opcodes são formados pelos 5 bits menos significativos. 
+| Mnemônico | Opcode | tipo 
+| -         | -      | -
+| lw        | 00000  | I   
+| add       | 00001  | R   
+| sub       | 00011  | R   
+| xor       | 00100  | R   
+| and       | 00101  | R   
+| beq       | 00110  | B   
+| bge       | 00111  | B   
+| blt       | 01000  | B   
+| bne       | 01001  | B   
+| addi      | 01010  | B   
+| sw        | 01011  | B   

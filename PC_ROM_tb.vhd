@@ -19,7 +19,7 @@ architecture rtl of PC_ROM_tb is
     end component;
 
     signal PC_reset_s : std_logic := '0';
-    signal PC_wr_en_s : std_logic := '0';
+    signal PC_wr_en_s : std_logic := '1';
 
     signal clk : std_logic;
     constant period_time : time := 100 ns;
