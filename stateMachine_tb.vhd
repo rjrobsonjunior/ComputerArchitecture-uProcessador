@@ -10,13 +10,14 @@ architecture impl of stateMachine_tb is
 
     component stateMachine is
         port (
-            rst : in std_logic;
-            clk : in std_logic;
-            state : out std_logic
+        clk      : in std_logic;
+        rst      : in std_logic;
+        state : out unsigned( 1 downto 0)
         );
     end component;
 
-    signal clk, rst, state : std_logic;
+    signal clk, rst: std_logic;
+    signal state : unsigned (1 downto 0);
 
     constant period_time : time := 100 ns;
     signal finished : std_logic := '0';
@@ -29,14 +30,6 @@ begin
     );
 
 
-    -- rst_global: process
-    -- begin
-    --     rst <= '1';
-    --     wait for period_time*2;
-    --     rst <= '0';
-    --     wait;
-    -- end process;
-    
 
     sim_time_proc: process
     begin
@@ -72,7 +65,6 @@ begin
         wait for period_time;
 
         wait for period_time;
-        rst <= '1';
 
         wait for period_time;
 
