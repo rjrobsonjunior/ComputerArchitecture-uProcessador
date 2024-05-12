@@ -38,18 +38,18 @@ architecture rtl of Top_Level is
     end component;
 
     component ControlUnit is
-        port(
+        port (
             clk   : in std_logic;
             instruction : in unsigned(15 downto 0);
             jump : out std_logic;
             jump_addr : out unsigned(6 downto 0);
-            PCWrite : out std_logic
+            fetchState, decodeState, executeState  : out std_logic
         );
     end component;
 
     signal jump_flag_s : std_logic;
     signal jump_addr_s : unsigned(6 downto 0);
-    signal PC_wr_en_s : std_logic;
+    signal fetchState, decodeState, executeState : std_logic;
 
     signal current_addr_s : unsigned(6 downto 0);
     signal data_s : unsigned(15 downto 0);
@@ -60,7 +60,7 @@ begin
         jump_flag => jump_flag_s,
         jump_addr => jump_addr_s,
         PC_reset => PC_reset,
-        PC_wr_en => PC_wr_en_s,
+        PC_wr_en => decodeState,
         PC => current_addr_s
     );
 
@@ -75,7 +75,9 @@ begin
         instruction => data_s,
         jump => jump_flag_s,
         jump_addr => jump_addr_s,
-        PCWrite => PC_wr_en_s
+        fetchState   => fetchState,
+        decodeState  => decodeState,
+        executeState => executeState 
     );
 
     data <= data_s;
