@@ -30,9 +30,9 @@ begin
         state => state
     );
 
-    opcode <= instruction(15 downto 12);
+    opcode <= instruction(3 downto 0);
     jump <= '1' when opcode = "1111" else '0';
-    jump_addr <= instruction(6 downto 0);
+    jump_addr <= '0'&instruction(15 downto 10); --concatena
     
     PCWrite <= '1' when state = '1' else '0';
 
