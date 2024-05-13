@@ -19,23 +19,23 @@ I:
 | --      | --    | --
 
 R:
-| Free(3) | rs2(3) | rs1(3)  | rd(3) | Opcode(4)
-| --      | --      | --      | --    | --
+| Free(6) | rs1(3)  | rd(3) | Opcode(4)
+| --      | --      | --    | --    
 
 B:
 | Imm(6) | rs1(3) | rd(3)  | Opcode(4)
-| --         |--      | --      | --
+| --     |--      | --     | --
 
 ## Instruções
 
-Os opcodes são formados pelos 5 bits menos significativos. 
+Os opcodes são formados pelos 4 bits menos significativos. 
 | n| Mnemônico | Opcode | tipo 
 |--| --        |--      |--  
-| 1| add       | 0000   | R   
-| 2| sub       | 0001   | R   
-| 3| xor       | 0010   | R   
-| 4| and       | 0011   | R  
-| 5| lw        | 0100   | I  
+| 1| nop       | 0000   | n   
+| 2| add       | 0001   | R   
+| 3| sub       | 0010   | R   
+| 4| xor       | 0011   | R 
+| 5| and       | 0100   | R   
 | 6| beq       | 0101   | B   
 | 7| bge       | 0110   | B   
 | 8| blt       | 0111   | B   
@@ -43,5 +43,6 @@ Os opcodes são formados pelos 5 bits menos significativos.
 |10| addi      | 1001   | B 
 |11| subi      | 1010   | B 
 |12| sw        | 1011   | I 
+|13| lw        | 1100   | I 
 |: |   :       |   :    | :    
 |16| jump      | 1111   | B
