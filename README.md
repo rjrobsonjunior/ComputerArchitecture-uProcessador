@@ -40,8 +40,8 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 7| bge       | 0110   | B   
 | 8| blt       | 0111   | B   
 | 9| bne       | 1000   | B   
-|10| addi      | 1001   | B 
-|11| subi      | 1010   | B 
+|10| addi      | 1001   | I 
+|11| subi      | 1010   | I 
 |12| sw        | 1011   | I 
 |13| lw        | 1100   | I 
 |: |   :       |   :    | :    
