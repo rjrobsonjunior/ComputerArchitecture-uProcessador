@@ -9,8 +9,9 @@ entity InstructionDecoder is
         instruction : in unsigned(15 downto 0);
         ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
-        ula_input_Instruction : out unsigned( 15 downto 0) -- value form instruction type I and B, like addi, subi, be 
-    );
+        ula_input_Instruction : out unsigned( 15 downto 0); -- value form instruction type I and B, like addi, subi, be 
+        addressReg1, addressReg2 : out unsigned( 2 downto 0)
+        );
 end entity InstructionDecoder;
 
 architecture rtl of InstructionDecoder is
@@ -66,6 +67,8 @@ begin
                     "10" when InstructionSave(3 downto 0) = "0100" else --and
                     "00";
 
+    addressReg1 <= InstructionSave(6 downto 4);
+    addressReg2 <= InstructionSave(9 downto 7);
 
     ula_input_Instruction <= "0000000"&InstructionSave(15 downto 7) when Iinstruction = '1' else
                              "0000000000"&InstructionSave(15 downto 10) when BInstruction = '1' else
