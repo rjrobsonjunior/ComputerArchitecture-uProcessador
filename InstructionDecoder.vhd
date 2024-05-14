@@ -45,7 +45,7 @@ begin
                     '0';
     B_format_instruction <= Binstruction;
     
-    Iinstruction <= '1' when InstructionSave(3 downto 0) = "0100" else -- lw
+    Iinstruction <= '1' when InstructionSave(3 downto 0) = "1100" else -- lw
                     '1' when InstructionSave(3 downto 0) = "1011" else -- sw
                     '0';
     I_format_instruction <= Iinstruction;
