@@ -8,13 +8,13 @@ end entity IntructionDecoder_tb;
 architecture rtl of IntructionDecoder_tb is
 
     component InstructionDecoder port (
-            clk   : in std_logic;
-            reset : in std_logic;
-            instruction : in unsigned(15 downto 0);
-            ula_selector : out unsigned(1 downto 0 );
-            B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
-            ula_input_Instruction : out unsigned( 15 downto 0) -- value form instruction type I and B, like addi, subi, be 
-        );
+        clk, clkFetch  : in std_logic;
+        reset : in std_logic;
+        instruction : in unsigned(15 downto 0);
+        ula_selector : out unsigned(1 downto 0 );
+        B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
+        ula_input_Instruction : out unsigned( 15 downto 0) -- value form instruction type I and B, like addi, subi, be 
+    );
     end component;
 
     signal clk, reset : std_logic;
@@ -26,6 +26,7 @@ architecture rtl of IntructionDecoder_tb is
 begin
     instructiondecodeComponent : InstructionDecoder port map (
         clk                   => clk,
+        clkFetch              => '1',
         reset                 => reset,
         instruction           => instruction,
         ula_selector          => ulaselector,
