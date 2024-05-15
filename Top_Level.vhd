@@ -47,14 +47,14 @@ architecture rtl of Top_Level is
     );
     end component;
 
-    component InstructionDecoder port (
-        clk   : in std_logic;
+    component InstructionRegister port (
+        clk, clkFetch  : in std_logic;
         reset : in std_logic;
         instruction : in unsigned(15 downto 0);
         ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
-        ula_input_Instruction : out unsigned( 15 downto 0); -- value form instruction type I and B, like addi, subi, be
-        addressReg1, addressReg2 : out unsigned( 2 downto 0) 
+        ImmValue : out unsigned( 15 downto 0);  
+        addressReg1, addressReg2: out unsigned( 2 downto 0)
     );
     end component;
 
@@ -114,15 +114,16 @@ begin
         decodeState  => decodeState,
         executeState => executeState 
     );
-    Intructioncomponent : InstructionDecoder port map(
+    Intructioncomponent : InstructionRegister port map(
         clk                   => clk,
+        clkFetch => fetchState,
         reset                 => PC_reset,
         instruction           => data_s,
         ula_selector          => ula_selector,
         B_format_instruction  => Binstruction,
         I_format_instruction  => Iinstruction,
         R_format_instruction  => Rinstruction,
-        ula_input_Instruction => ula_input_decode
+        ImmValue              => ula_input_decode
     );
 
     ULA_RegBank_component : ULA_RegBank port map (
