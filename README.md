@@ -15,12 +15,12 @@
 
 ## Formatos das Intruções
 I: 
-| Imm(9)  | rd(3) | Opcode(4)
-| --      | --    | --
+| Imm(12)  | Opcode(4)
+| --      | --
 
 R:
-| Free(6) | rs1(3)  | rd(3) | Opcode(4)
-| --      | --      | --    | --    
+| Free(6) | rd(3) | Opcode(4)
+| --      | --    | --    
 
 B:
 | Imm(6) | rs1(3) | rd(3)  | Opcode(4)

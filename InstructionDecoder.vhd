@@ -10,7 +10,7 @@ entity InstructionDecoder is
         ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
         ula_input_Instruction : out unsigned( 15 downto 0); -- value form instruction type I and B, like addi, subi, be 
-        addressReg1, addressReg2 : out unsigned( 2 downto 0)
+        addressReg1 : out unsigned( 2 downto 0)
         );
 end entity InstructionDecoder;
 
@@ -26,6 +26,8 @@ architecture rtl of InstructionDecoder is
     
 signal Iinstruction, Binstruction, Rinstruction : std_logic;
 signal InstructionSave : unsigned (15 downto 0);
+signal tmpImmI : unsigned (6 downto 0);
+signal tmpImmB : unsigned (9 downto 0);
 begin
     componentInstruction : reg16bits port map (
         clk      => clk,
@@ -68,9 +70,13 @@ begin
                     "00";
 
     addressReg1 <= InstructionSave(6 downto 4);
-    addressReg2 <= InstructionSave(9 downto 7);
 
-    ula_input_Instruction <= "0000000"&InstructionSave(15 downto 7) when Iinstruction = '1' else
-                             "0000000000"&InstructionSave(15 downto 10) when BInstruction = '1' else
-                                x"0000";
+    tmpImmI <= "1111111" when InstructionSave(15) = "1" else
+               "0000000";
+    tmpImmB <= "11111111111" when InstructionSave(15) = "1" else
+                "0000000000";
+                
+    ula_input_Instruction <= tmpImmI&InstructionSave(15 downto 7) when Iinstruction = '1' else
+                             tmpImmB"&InstructionSave(15 downto 10) when BInstruction = '1' else
+                            x"0000";
 end architecture;
