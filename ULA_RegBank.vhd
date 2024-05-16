@@ -55,9 +55,8 @@ architecture impl of ULA_RegBank is
     signal regbank_read_data1, out_mux_ula_src, out_mux_rb, out_acc_mux: unsigned(15 downto 0);
     signal regbank_read_data2 : unsigned(15 downto 0);
     signal mux_1_to_ula : unsigned(15 downto 0);
-    signal ula_out_to_regbank_datawr : unsigned(15 downto 0);
-    signal ula_out_signal : unsigned(15 downto 0);
-    signal accumulator_s : unsigned(15 downto 0);
+    signal ula_out_signal : unsigned(15 downto 0) := x"0000";
+    signal accumulator_s : unsigned(15 downto 0) := x"0000" ;
 begin
     
     mux_RB: MUX2_16

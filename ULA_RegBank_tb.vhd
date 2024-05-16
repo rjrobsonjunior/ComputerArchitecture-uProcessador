@@ -95,19 +95,18 @@ begin
     process
     begin
         wait for period_time * 2;
-        rd_address <= "000";
+        rd_address <= "001";
         imm_value <= X"0004";
         rb_mux_selector <= '1';
         ula_src_selector <= '1';
-        acc_mux_selector <= '1';
-        rb_wr_reg <= "001";
+        acc_mux_selector <= '0';
         wr_en <= '1';
+        acc_wr_en <= '1';
         ula_selector <= "00";
-        
 
         wait for 100 ns;
-
-
+        rb_mux_selector <= '0';
+        acc_wr_en <= '0';
         wait for 100 ns;
 
         wait for 100 ns;
