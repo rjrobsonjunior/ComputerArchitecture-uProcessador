@@ -17,19 +17,22 @@ ghdl -e MUX4_16
 ghdl -a MUX2_16.vhd
 ghdl -e MUX2_16
 
+ghdl -a ULA.vhd
+ghdl -e ULA
+
 ghdl -a RegisterBank.vhd
 ghdl -e RegisterBank
 
 #ghdl -a RegisterBank_tb.vhd 
 #ghdl -e RegisterBank_tb 
 
-ghdl -a InstructionRegister.vhd
-ghdl -e InstructionRegister
+ghdl -a ULA_RegBank.vhd
+ghdl -e ULA_RegBank
 
-ghdl -a InstructionRegister_tb.vhd
-ghdl -e InstructionRegister_tb
+ghdl -a ULA_RegBank_tb.vhd
+ghdl -e ULA_RegBank_tb
 
-ghdl -r InstructionRegister_tb --wave=InstructionRegister_tb.ghw
+ghdl -r ULA_RegBank_tb --wave=ULA_RegBank_tb.ghw
 # Run the simULAtion and generate the wave file
 #ghdl -r ULA_tb --wave=ULA_tb.ghw 
 
