@@ -54,7 +54,7 @@ architecture rtl of Top_Level is
         ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
         ImmValue : out unsigned( 15 downto 0);  
-        addressReg1, addressReg2: out unsigned( 2 downto 0)
+        addressReg1: out unsigned( 2 downto 0)
     );
     end component;
 
@@ -87,7 +87,7 @@ architecture rtl of Top_Level is
     signal current_addr_s : unsigned(6 downto 0);
     signal data_s, ula_input_decode, resultULApartial : unsigned(15 downto 0);
     signal ula_selector : unsigned(1 downto 0);
-    signal rb1, rb2 : unsigned(2 downto 0);
+    signal rd, rb2 : unsigned(2 downto 0);
     signal ulabigger, ulacarry,ulaoverflow, ulasmaller, ula_bigger : std_logic;
 begin
     PC_Adder_component : PC_Adder port map (
@@ -123,7 +123,8 @@ begin
         B_format_instruction  => Binstruction,
         I_format_instruction  => Iinstruction,
         R_format_instruction  => Rinstruction,
-        ImmValue              => ula_input_decode
+        ImmValue              => ula_input_decode,
+        addressReg1           => rd
     );
 
     ULA_RegBank_component : ULA_RegBank port map (
@@ -132,9 +133,9 @@ begin
         wr_en                => executeState,
         r_data_1_mux_selector   => '0',
         r_data_2_mux_selector   => Binstruction,
-        rb_address1     => rb1,
-        rb_address2     => rb2,
-        rb_wr_reg       => rb1,
+        rb_address1     => rd,
+        rb_address2     => "000",
+        rb_wr_reg       => rd,
         mux_1_input     => x"0000", --posteriormente trocar pelo salto relativo
         ula_selector    => ula_selector,
         ula_carry       => ulacarry,

@@ -10,7 +10,7 @@ entity InstructionRegister is
         ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
         ImmValue : out unsigned( 15 downto 0);  
-        addressReg1, addressReg2: out unsigned( 2 downto 0)
+        addressReg1: out unsigned( 2 downto 0)
         );
 end entity InstructionRegister;
 
@@ -70,8 +70,7 @@ begin
                     "00";
 
     addressReg1 <= InstructionSave(6 downto 4);
-    addressReg2 <= InstructionSave(9 downto 7);
-
+    
     tmpImmI <= "1111111" when InstructionSave(15) = '1' else
                "0000000";
     tmpImmB <= "1111111111" when InstructionSave(15) = '1' else
