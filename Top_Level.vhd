@@ -48,6 +48,7 @@ architecture rtl of Top_Level is
             rb_mux       : out std_logic;
             rb_wr_en     : out std_logic;
             ula_selector : out unsigned(1 downto 0);
+            ula_src_mux  : out std_logic;
             acc_mux      : out std_logic;
             acc_wr_en    : out std_logic;
             fetchState, decodeState, executeState  : out std_logic
@@ -67,15 +68,14 @@ architecture rtl of Top_Level is
     component ULA_RegBank is
         port (
                 clk, rst, wr_en : in std_logic;
-                r_data_1_mux_selector    : in std_logic;
-                r_data_2_mux_selector    : in std_logic;
-    
-                rb_address1     : in unsigned(2 downto 0);
-                rb_address2     : in unsigned(2 downto 0);
-                rb_wr_reg       : in unsigned(2 downto 0);
-                
-                mux_1_input   : in unsigned(15 downto 0);
+                rd_address     : in unsigned(2 downto 0);
+                rb_mux_selector : in std_logic;
+                ula_src_selector : in std_logic;
                 ula_selector    : in unsigned(1 downto 0);
+                acc_wr_en       : in std_logic;
+                acc_mux_selector : in std_logic;
+                imm_value       : in unsigned(15 downto 0);
+
                 ula_carry       : out std_logic;
                 ula_overflow    : out std_logic;
                 ula_bigger      : out std_logic;
@@ -97,7 +97,7 @@ architecture rtl of Top_Level is
     signal Binstruction, Iinstruction, Rinstruction : std_logic;
     signal ula_selector : unsigned(1 downto 0);
     signal rd: unsigned(2 downto 0);
-    signal ula_bigger, ula_carry, ula_overflow, ula_smaller, ula_bigger : std_logic;
+    signal ula_bigger, ula_carry, ula_overflow, ula_smaller: std_logic;
 
     signal ula_src_mux_s : std_logic;
     signal rb_mux_s, rb_wr_en_s: std_logic;
@@ -154,12 +154,12 @@ begin
         rst              => PC_reset,
         wr_en            => rb_wr_en_s,
         rd_address       => rd,
-        rb_wr_reg        => rd,
         rb_mux_selector  => rb_mux_s,
         ula_src_selector => ula_src_mux_s,
         ula_selector     => ula_selector,
         acc_wr_en        => acc_wr_en_s,
         acc_mux_selector => acc_mux_s,
+        imm_value        => immediate_s,
 
         ula_carry        => ula_carry,
         ula_overflow     => ula_overflow,

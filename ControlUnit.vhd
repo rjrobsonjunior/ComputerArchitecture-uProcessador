@@ -51,7 +51,7 @@ begin
     rb_mux <= '1' when opcode = "1000" else '0'; -- ld
     rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
 
-    ula_src_mux  <= '1' when opcode = "1001" else '0' --addi
+    ula_src_mux  <= '1' when opcode = "1001" else '0'; --addi
     ula_selector <= "00" when opcode = "1001" else --addi
                     "00" when opcode = "0001" else  --add
                     "01" when opcode = "0010" else --sub
