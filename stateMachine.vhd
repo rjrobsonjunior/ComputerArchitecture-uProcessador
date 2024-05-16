@@ -12,12 +12,12 @@ end entity;
 
 
 architecture a_stateMachine of stateMachine is
-    signal state0 : unsigned( 1 downto 0) := "00";
+    signal state0 : unsigned( 1 downto 0) := "11";
 begin
     process(clk,rst)
     begin
         if rst='1' then
-            state0 <= "00";
+            state0 <= "11";
         elsif rising_edge(clk) then
             if state0 = "10" then 
                 state0 <= "00";

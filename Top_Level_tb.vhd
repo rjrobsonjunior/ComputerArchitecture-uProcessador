@@ -34,9 +34,6 @@ begin
 
     rst_global: process
     begin
-        rst <= '1';
-        wait for period_time*2;
-        rst <= '0';
         wait;
     end process;
     
@@ -51,6 +48,9 @@ begin
 
     clk_proc: process
     begin
+        rst <= '1';
+        wait for period_time*2;
+        rst <= '0';
         while finished /= '1' loop
             clk <= '0';
             wait for period_time/2;

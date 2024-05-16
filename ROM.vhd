@@ -14,7 +14,7 @@ architecture rtl of ROM is
 
     type mem is array (0 to 127) of unsigned(15  downto 0);
     constant rom_data : mem := (
-        0  => b"000101000_011_1000", -- ld r3, 5   (A)
+        0  => b"000000101_011_1000", -- ld r3, 5   (A)
         1  => b"000100000_100_1000", -- ld r4, 8   (B)
         2  => b"000000000_011_1101", -- movA r3    (C)
         3  => b"000000000_100_0001", -- add r4     (C)
