@@ -1,0 +1,12 @@
+MSB   b15                b0  LBB
+        |                |
+nop     xxxxxxxxx ddd 0000
+add     xxxxxxxxx ddd 0001
+sub     xxxxxxxxx ddd 0010
+xor     xxxxxxxxx ddd 0011
+and     xxxxxxxxx ddd 0100
+ld      ccccccccc ddd 1000
+addi    ccccccccc ddd 1001
+movA    xxxxxxxxx ddd 1101
+movR    xxxxxxxxx ddd 1110
+jump    ccccccccc ddd 1111
