@@ -5,9 +5,9 @@ use ieee.numeric_std.all;
 entity ULA_RegBank is
     port (
             clk, rst, wr_en, acc_wr_en : in std_logic;
-            acc_mux_selector         : in std_logic;
             rb_mux_selector          : in std_logic;
             ula_src_selector         : in std_logic;
+            acc_mux_selector         : in std_logic;
             rd_address      : in unsigned(2 downto 0);
             imm_value       : in unsigned(15 downto 0);
             ula_selector    : in unsigned(1 downto 0);

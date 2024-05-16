@@ -7,7 +7,6 @@ entity InstructionRegister is
         clk, clkFetch  : in std_logic;
         reset : in std_logic;
         instruction : in unsigned(15 downto 0);
-        ula_selector : out unsigned(1 downto 0 );
         B_format_instruction, I_format_instruction, R_format_instruction : out std_logic;
         ImmValue : out unsigned( 15 downto 0);  
         addressReg1: out unsigned( 2 downto 0)
@@ -61,13 +60,6 @@ begin
                     '1' when InstructionSave(3 downto 0) = "1110" else --movR
                     '0';
     R_format_instruction <= Rinstruction;
-
-    ula_selector <= "00" when InstructionSave(3 downto 0) = "1001" else --addi
-                    "00" when InstructionSave(3 downto 0) = "0001" else  --add
-                    "01" when InstructionSave(3 downto 0) = "0010" else --sub
-                    "10" when InstructionSave(3 downto 0) = "0011" else --xor
-                    "10" when InstructionSave(3 downto 0) = "0100" else --and
-                    "00";
 
     addressReg1 <= InstructionSave(6 downto 4);
     

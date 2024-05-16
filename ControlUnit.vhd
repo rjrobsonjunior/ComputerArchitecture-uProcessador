@@ -6,8 +6,16 @@ entity ControlUnit is
     port (
         clk          : in std_logic;
         instruction  : in unsigned(15 downto 0);
-        jump         : out std_logic;
         jump_addr    : out unsigned(6 downto 0);
+
+        jump         : out std_logic;
+        rb_mux       : out std_logic;
+        rb_wr_en     : out std_logic;
+        ula_src_mux  : out std_logic;
+        ula_selector : out unsigned(1 downto 0);
+        acc_mux      : out std_logic;
+        acc_wr_en    : out std_logic;
+
         fetchState, decodeState, executeState  : out std_logic
     );
 end entity ControlUnit;
@@ -34,9 +42,28 @@ begin
     jump <= '1' when opcode = "1111" else '0';
     jump_addr <= '0'&instruction(15 downto 10); --concatena
     reset <= '1' when opcode = "1111" else '0';
-    
 
     fetchState <= '1' when state = "00" else '0';
     decodeState <= '1' when state = "01" else '0';
     executeState <= '1' when state = "10" else '0';
+
+
+    rb_mux <= '1' when opcode = "1000" else '0'; -- ld
+    rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
+
+    ula_src_mux  <= '1' when opcode = "1001" else '0' --addi
+    ula_selector <= "00" when opcode = "1001" else --addi
+                    "00" when opcode = "0001" else  --add
+                    "01" when opcode = "0010" else --sub
+                    "10" when opcode = "0011" else --xor
+                    "10" when opcode = "0100" else --and
+                    "00";
+
+    acc_mux <= '1' when opcode = "1101" else '0'; --mova
+    acc_wr_en <= '1' when opcode = "0001" else --add
+                 '1' when opcode = "0010" else --sub
+                 '1' when opcode = "0011" else --xor
+                 '1' when opcode = "0100" else --and
+                 '1' when opcode = "1101" else --movA
+                 '0'; -- 1 for all R except for MOVR
 end architecture;
