@@ -108,7 +108,7 @@ begin
         jump_flag => jump_flag_s,
         jump_addr => jump_addr_s,
         PC_reset => PC_reset,
-        PC_wr_en => executeState,
+        PC_wr_en => decodeState,
 
         PC => current_addr_s
     );

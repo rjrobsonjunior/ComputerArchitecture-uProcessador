@@ -31,6 +31,8 @@ architecture rtl of ControlUnit is
     signal reset : std_logic := '0';
     signal state : unsigned (1 downto 0) := "00";
     signal opcode : unsigned(3 downto 0);
+    signal tmp_acc_wr_en : std_logic;
+    signal fetchState_s, decodeState_s, executeState_s : std_logic;
 begin
     stateMachine_component : stateMachine port map (
         clk => clk,
@@ -43,10 +45,13 @@ begin
     jump_addr <= '0'&instruction(15 downto 10); --concatena
     reset <= '1' when opcode = "1111" else '0';
 
-    fetchState <= '1' when state = "00" else '0';
-    decodeState <= '1' when state = "01" else '0';
-    executeState <= '1' when state = "10" else '0';
-
+    fetchState_s <= '1' when state = "00" else '0';
+    decodeState_s <= '1' when state = "01" else '0';
+    executeState_s <= '1' when state = "10" else '0';
+    
+    fetchState <= fetchState_s;
+    decodeState <= decodeState_s;
+    executeState <= executeState_s;
 
     rb_mux <= '1' when opcode = "1000" else '0'; -- ld
     rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
@@ -60,10 +65,11 @@ begin
                     "00";
 
     acc_mux <= '1' when opcode = "1101" else '0'; --mova
-    acc_wr_en <= '1' when opcode = "0001" else --add
+    tmp_acc_wr_en <= '1' when opcode = "0001" else --add
                  '1' when opcode = "0010" else --sub
                  '1' when opcode = "0011" else --xor
                  '1' when opcode = "0100" else --and
                  '1' when opcode = "1101" else --movA
                  '0'; -- 1 for all R except for MOVR
+    acc_wr_en <= tmp_acc_wr_en and decodeState_s;
 end architecture;
