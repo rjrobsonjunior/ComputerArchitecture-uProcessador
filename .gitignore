@@ -2,3 +2,4 @@
 *.ghw
 .hdl_checker
 *.sync-conflict-*
+*.gtkw
