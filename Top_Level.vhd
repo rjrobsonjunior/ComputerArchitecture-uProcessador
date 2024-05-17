@@ -166,8 +166,8 @@ begin
         ula_bigger       => ula_bigger,
         ula_smaller      => ula_smaller,
         accumulator      => acc_out
-    );
 
+    );
     data <= data_s;
 
 end architecture;

@@ -33,6 +33,7 @@ architecture rtl of ControlUnit is
     signal opcode : unsigned(3 downto 0);
     signal tmp_acc_wr_en : std_logic;
     signal fetchState_s, decodeState_s, executeState_s : std_logic;
+    signal tmp_rb_wr_en : std_logic;
 begin
     stateMachine_component : stateMachine port map (
         clk => clk,
@@ -54,7 +55,8 @@ begin
     executeState <= executeState_s;
 
     rb_mux <= '1' when opcode = "1000" else '0'; -- ld
-    rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
+    tmp_rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
+    rb_wr_en <= tmp_rb_wr_en and decodeState_s;
 
     ula_src_mux  <= '1' when opcode = "1001" else '0'; --addi
     ula_selector <= "00" when opcode = "1001" else --addi
