@@ -44,7 +44,7 @@ begin
     opcode <= instruction(3 downto 0);
     jump <= '1' when opcode = "1111" else '0';
     jump_addr <= '0'&instruction(15 downto 10); --concatena
-    reset <= '1' when opcode = "1111" else '0';
+    -- reset <= '1' when opcode = "1111" else '0';
 
     fetchState_s <= '1' when state = "00" else '0';
     decodeState_s <= '1' when state = "01" else '0';
@@ -72,6 +72,7 @@ begin
                  '1' when opcode = "0011" else --xor
                  '1' when opcode = "0100" else --and
                  '1' when opcode = "1101" else --movA
+                 '1' when opcode = "1001" else --addi
                  '0'; -- 1 for all R except for MOVR
     acc_wr_en <= tmp_acc_wr_en and decodeState_s;
 end architecture;
