@@ -72,6 +72,7 @@ begin
                  '1' when opcode = "0011" else --xor
                  '1' when opcode = "0100" else --and
                  '1' when opcode = "1101" else --movA
+                 '1' when opcode = "1001" else --addi
                  '0'; -- 1 for all R except for MOVR
     acc_wr_en <= tmp_acc_wr_en and decodeState_s;
 end architecture;
