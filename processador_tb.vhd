@@ -10,9 +10,16 @@ architecture rtl of processador_tb is
     component Top_Level is
         port(
             clk : in std_logic;
+            
             PC_reset : in std_logic;
+            PC       : out unsigned(6 downto 0);
+            state    : out unsigned(1 downto 0);
+
             data : out unsigned(15 downto 0);
-            acc_out : out unsigned(15 downto 0)
+
+            acc_out : out unsigned(15 downto 0);
+            rd_out  : out unsigned(15 downto 0);
+            ula_out : out unsigned(15 downto 0)
         );
     end component;
 
@@ -22,14 +29,20 @@ architecture rtl of processador_tb is
 
     signal rst : std_logic;
     signal clk : std_logic;
-    signal data, acc_out : unsigned(15 downto 0);
+    signal pc  : unsigned(6 downto 0);
+    signal state : unsigned(1 downto 0);
+    signal data, acc_out, rd_out, ula_out : unsigned(15 downto 0);
     
 begin
     uut: Top_Level port map(
-        clk => clk,
+        clk      => clk,
         PC_reset => rst,
-        data => data,
-        acc_out => acc_out
+        PC       => PC,
+        state    => state,
+        data     => data,
+        acc_out  => acc_out,
+        rd_out   => rd_out,
+        ula_out  => ula_out
     );
 
     rst_global: process

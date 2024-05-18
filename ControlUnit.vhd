@@ -16,7 +16,8 @@ entity ControlUnit is
         acc_mux      : out std_logic;
         acc_wr_en    : out std_logic;
 
-        fetchState, decodeState, executeState  : out std_logic
+        fetchState, decodeState, executeState  : out std_logic;
+        state        : out  unsigned(1 downto 0)
     );
 end entity ControlUnit;
 
@@ -29,7 +30,7 @@ architecture rtl of ControlUnit is
         );
     end component;
     signal reset : std_logic := '0';
-    signal state : unsigned (1 downto 0) := "00";
+    signal state_s : unsigned (1 downto 0) := "00";
     signal opcode : unsigned(3 downto 0);
     signal tmp_acc_wr_en : std_logic;
     signal fetchState_s, decodeState_s, executeState_s : std_logic;
@@ -38,7 +39,7 @@ begin
     stateMachine_component : stateMachine port map (
         clk => clk,
         rst => reset,
-        state => state
+        state => state_s
     );
 
     opcode <= instruction(3 downto 0);
@@ -46,9 +47,9 @@ begin
     jump_addr <= '0'&instruction(15 downto 10); --concatena
     -- reset <= '1' when opcode = "1111" else '0';
 
-    fetchState_s <= '1' when state = "00" else '0';
-    decodeState_s <= '1' when state = "01" else '0';
-    executeState_s <= '1' when state = "10" else '0';
+    fetchState_s <= '1' when state_s = "00" else '0';
+    decodeState_s <= '1' when state_s = "01" else '0';
+    executeState_s <= '1' when state_s = "10" else '0';
     
     fetchState <= fetchState_s;
     decodeState <= decodeState_s;

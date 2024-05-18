@@ -16,7 +16,8 @@ entity ULA_RegBank is
             ula_bigger      : out std_logic;
             ula_smaller     : out std_logic;
             ula_output      : out unsigned(15 downto 0);
-            accumulator : out unsigned(15 downto 0)
+            accumulator     : out unsigned(15 downto 0);
+            rd_out          : out unsigned(15 downto 0)
          );
 end entity ULA_RegBank;
 
@@ -121,5 +122,6 @@ begin
         end if;
     end process;
     accumulator <= accumulator_s;
+    rd_out <= regbank_read_data1;
 
 end impl;

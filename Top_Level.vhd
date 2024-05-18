@@ -8,10 +8,14 @@ entity Top_Level is
         clk : in std_logic;
         
         PC_reset : in std_logic;
+        PC       : out unsigned(6 downto 0);
+        state    : out unsigned(1 downto 0);
 
         data : out unsigned(15 downto 0);
 
-        acc_out : out unsigned(15 downto 0)
+        acc_out : out unsigned(15 downto 0);
+        rd_out  : out unsigned(15 downto 0);
+        ula_out : out unsigned(15 downto 0)
     );
 end entity;
 
@@ -51,7 +55,8 @@ architecture rtl of Top_Level is
             ula_src_mux  : out std_logic;
             acc_mux      : out std_logic;
             acc_wr_en    : out std_logic;
-            fetchState, decodeState, executeState  : out std_logic
+            fetchState, decodeState, executeState  : out std_logic;
+            state        : out unsigned(1 downto 0)
     );
     end component;
 
@@ -82,13 +87,15 @@ architecture rtl of Top_Level is
                 ula_smaller     : out std_logic;
                 ula_output      : out unsigned(15 downto 0);
     
-                accumulator : out unsigned(15 downto 0)
+                accumulator : out unsigned(15 downto 0);
+                rd_out      : out unsigned(15 downto 0)
              );
     end component;
 
     signal jump_flag_s : std_logic;
     signal jump_addr_s : unsigned(6 downto 0);
     signal fetchState, decodeState, executeState : std_logic;
+    signal state_s : unsigned(1 downto 0);
 
     signal current_addr_s : unsigned(6 downto 0);
     signal data_s : unsigned(15 downto 0);
@@ -134,7 +141,8 @@ begin
         acc_wr_en    => acc_wr_en_s,
         fetchState   => fetchState,
         decodeState  => decodeState,
-        executeState => executeState 
+        executeState => executeState,
+        state        => state_s
     );
     Intructioncomponent : InstructionRegister port map(
         clk                   => clk,
@@ -161,13 +169,17 @@ begin
         acc_mux_selector => acc_mux_s,
         imm_value        => immediate_s,
 
+        ula_output       => ula_out,
         ula_carry        => ula_carry,
         ula_overflow     => ula_overflow,
         ula_bigger       => ula_bigger,
         ula_smaller      => ula_smaller,
-        accumulator      => acc_out
+        accumulator      => acc_out,
+        rd_out           => rd_out
 
     );
     data <= data_s;
+    state <= state_s;
+    PC <= current_addr_s;
 
 end architecture;
