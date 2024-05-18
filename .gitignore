@@ -1,4 +1,5 @@
 *.cf
 *.ghw
+*.gtkw
 .hdl_checker
 *.sync-conflict-*
