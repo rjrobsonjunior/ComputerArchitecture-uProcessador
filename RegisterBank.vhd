@@ -35,13 +35,13 @@ architecture rtl of RegisterBank is
     signal outEightRegisters: unsigned ( 127 downto 0);
 begin
     wren_register(0) <= '0'; -- Register zero cannot be written to
-    wren_register(1) <= (not writeRegister(2)) and (not writeRegister(1)) and ( writeRegister(0));    --1
-    wren_register(2) <= (not writeRegister(2)) and ( writeRegister(1)) and (not writeRegister(0));    --2
-    wren_register(3) <= (not writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));         --3
-    wren_register(4) <= ( writeRegister(2)) and ( not writeRegister(1)) and (not writeRegister(0));   --4
-    wren_register(5) <= ( writeRegister(2)) and (not writeRegister(1)) and (writeRegister(0));        --5
-    wren_register(6) <= (writeRegister(2)) and (writeRegister(1)) and (not writeRegister(0));         --6
-    wren_register(7) <= (writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));             --7
+    wren_register(1) <= wren and (not writeRegister(2)) and (not writeRegister(1)) and ( writeRegister(0));    --1
+    wren_register(2) <= wren and (not writeRegister(2)) and ( writeRegister(1)) and (not writeRegister(0));    --2
+    wren_register(3) <= wren and (not writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));         --3
+    wren_register(4) <= wren and ( writeRegister(2)) and ( not writeRegister(1)) and (not writeRegister(0));   --4
+    wren_register(5) <= wren and ( writeRegister(2)) and (not writeRegister(1)) and (writeRegister(0));        --5
+    wren_register(6) <= wren and (writeRegister(2)) and (writeRegister(1)) and (not writeRegister(0));         --6
+    wren_register(7) <= wren and (writeRegister(2)) and (writeRegister(1)) and (writeRegister(0));             --7
 
     gen00:for i in 0 to 7 generate
     begin
