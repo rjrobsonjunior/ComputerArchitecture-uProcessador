@@ -76,4 +76,6 @@ begin
                  '1' when opcode = "1001" else --addi
                  '0'; -- 1 for all R except for MOVR
     acc_wr_en <= tmp_acc_wr_en and decodeState_s;
+
+    state <= state_s;
 end architecture;
