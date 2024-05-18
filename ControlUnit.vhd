@@ -44,7 +44,7 @@ begin
     opcode <= instruction(3 downto 0);
     jump <= '1' when opcode = "1111" else '0';
     jump_addr <= '0'&instruction(15 downto 10); --concatena
-    reset <= '1' when opcode = "1111" else '0';
+    -- reset <= '1' when opcode = "1111" else '0';
 
     fetchState_s <= '1' when state = "00" else '0';
     decodeState_s <= '1' when state = "01" else '0';
