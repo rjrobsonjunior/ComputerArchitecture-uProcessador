@@ -36,8 +36,8 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 3| sub       | 0010   | R    | A -= rd
 | 4| xor       | 0011   | R    | A =xor rd
 | 5| and       | 0100   | R    | A =and rd
-| 6| beq       | 0101   | B    |
-| 7| bge       | 0110   | B    |
+| 6| jz        | 0101   | B    |
+| 7| jc        | 0110   | B    |
 | 8| cmp       | 0111   | B    |
 | 9| ld        | 1000   | I    | rd = Imm
 |10| addi      | 1001   | I    | A += Imm

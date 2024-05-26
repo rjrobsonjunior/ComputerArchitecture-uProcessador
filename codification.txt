@@ -1,6 +1,6 @@
 MSB   b15                b0  LBB
         |                |
-nop     xxxxxxxxx ddd 0000
+nop     xxxxxxxxx xxx 0000
 add     xxxxxxxxx ddd 0001
 sub     xxxxxxxxx ddd 0010
 xor     xxxxxxxxx ddd 0011
@@ -10,3 +10,8 @@ addi    ccccccccc ddd 1001
 movA    xxxxxxxxx ddd 1101
 movR    xxxxxxxxx ddd 1110
 jump    ccccccccc ddd 1111
+
+Onde:
+    ddd é o registrador destino
+    ccccccccc é a constante de 9 bits em complemento de 2
+    xxxxxxxxx é irrelevante

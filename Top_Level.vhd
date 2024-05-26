@@ -8,10 +8,14 @@ entity Top_Level is
         clk : in std_logic;
         
         PC_reset : in std_logic;
+        PC       : out unsigned(6 downto 0);
+        state    : out unsigned(1 downto 0);
 
         data : out unsigned(15 downto 0);
 
-        acc_out : out unsigned(15 downto 0)
+        acc_out : out unsigned(15 downto 0);
+        rd_out  : out unsigned(15 downto 0);
+        ula_out : out unsigned(15 downto 0)
     );
 end entity;
 
@@ -41,17 +45,23 @@ architecture rtl of Top_Level is
 
     component ControlUnit is 
         port (
-            clk          : in std_logic;
-            instruction  : in unsigned(15 downto 0);
-            jump_addr    : out unsigned(6 downto 0);
-            jump         : out std_logic;
-            rb_mux       : out std_logic;
-            rb_wr_en     : out std_logic;
-            ula_selector : out unsigned(1 downto 0);
-            ula_src_mux  : out std_logic;
-            acc_mux      : out std_logic;
-            acc_wr_en    : out std_logic;
-            fetchState, decodeState, executeState  : out std_logic
+            clk           : in std_logic;
+            instruction   : in unsigned(15 downto 0);
+            carry_flag    : in std_logic;
+            zero_flag     : in std_logic;
+            overflow_flag : in std_logic;
+            negative_flag : in std_logic;
+
+            jump_addr     : out unsigned(6 downto 0);
+            jump          : out std_logic;
+            rb_mux        : out std_logic;
+            rb_wr_en      : out std_logic;
+            ula_selector  : out unsigned(1 downto 0);
+            ula_src_mux   : out std_logic;
+            acc_mux       : out std_logic;
+            acc_wr_en     : out std_logic;
+            fetchState, decodeState, executeState  : out std_logic;
+            state         : out unsigned(1 downto 0)
     );
     end component;
 
@@ -82,13 +92,15 @@ architecture rtl of Top_Level is
                 ula_smaller     : out std_logic;
                 ula_output      : out unsigned(15 downto 0);
     
-                accumulator : out unsigned(15 downto 0)
+                accumulator : out unsigned(15 downto 0);
+                rd_out      : out unsigned(15 downto 0)
              );
     end component;
 
     signal jump_flag_s : std_logic;
     signal jump_addr_s : unsigned(6 downto 0);
     signal fetchState, decodeState, executeState : std_logic;
+    signal state_s : unsigned(1 downto 0);
 
     signal current_addr_s : unsigned(6 downto 0);
     signal data_s : unsigned(15 downto 0);
@@ -97,7 +109,7 @@ architecture rtl of Top_Level is
     signal Binstruction, Iinstruction, Rinstruction : std_logic;
     signal ula_selector : unsigned(1 downto 0);
     signal rd: unsigned(2 downto 0);
-    signal ula_bigger, ula_carry, ula_overflow, ula_smaller: std_logic;
+    signal ula_bigger, ula_carry, ula_overflow, ula_smaller, ula_zero: std_logic;
 
     signal ula_src_mux_s : std_logic;
     signal rb_mux_s, rb_wr_en_s: std_logic;
@@ -121,20 +133,25 @@ begin
     );
     
     ControlUnit_component : ControlUnit port map (
-        clk          => clk,
-        instruction  => data_s,
+        clk           => clk,
+        instruction   => data_s,
+        carry_flag    => ula_carry,
+        zero_flag     => ula_zero,
+        overflow_flag => ula_overflow,
+        negative_flag => ula_negative,
 
-        jump         => jump_flag_s,
-        jump_addr    => jump_addr_s,
-        rb_mux       => rb_mux_s,
-        rb_wr_en     => rb_wr_en_s,
-        ula_src_mux  => ula_src_mux_s,
-        ula_selector => ula_selector,
-        acc_mux      => acc_mux_s,
-        acc_wr_en    => acc_wr_en_s,
-        fetchState   => fetchState,
-        decodeState  => decodeState,
-        executeState => executeState 
+        jump          => jump_flag_s,
+        jump_addr     => jump_addr_s,
+        rb_mux        => rb_mux_s,
+        rb_wr_en      => rb_wr_en_s,
+        ula_src_mux   => ula_src_mux_s,
+        ula_selector  => ula_selector,
+        acc_mux       => acc_mux_s,
+        acc_wr_en     => acc_wr_en_s,
+        fetchState    => fetchState,
+        decodeState   => decodeState,
+        executeState  => executeState,
+        state         => state_s
     );
     Intructioncomponent : InstructionRegister port map(
         clk                   => clk,
@@ -161,13 +178,16 @@ begin
         acc_mux_selector => acc_mux_s,
         imm_value        => immediate_s,
 
+        ula_output       => ula_out,
         ula_carry        => ula_carry,
         ula_overflow     => ula_overflow,
         ula_bigger       => ula_bigger,
         ula_smaller      => ula_smaller,
-        accumulator      => acc_out
-
+        accumulator      => acc_out,
+        rd_out           => rd_out
     );
     data <= data_s;
+    state <= state_s;
+    PC <= current_addr_s;
 
 end architecture;
