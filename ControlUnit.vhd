@@ -101,8 +101,10 @@ begin
     jump_abs <= '1' when opcode = "1111" else '0'; --jump
     jump_rel <= '1' when opcode = "0101" or opcode = "0110"  else '0'; -- jc and jz
 
-    Cf_wr_en <= '1' when opcode = "0110" else '0'; -- jc
-    Zf_wr_en <= '1' when opcode = "0101" else '0'; -- jz
+    Cf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
+    Zf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
+    Of_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
+    Nf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     
     jump_addr <= instruction(13 downto 7); 
     -- reset <= '1' when opcode = "1111" else '0';
