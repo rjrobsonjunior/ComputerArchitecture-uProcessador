@@ -13,7 +13,8 @@ entity ControlUnit is
         negative_flag : in std_logic;
 
         jump_addr     : out unsigned(6 downto 0);
-        jump          : out std_logic;
+        jump_abs          : out std_logic;
+        jump_rel          : out std_logic;
 
         rb_mux        : out std_logic;
         rb_wr_en      : out std_logic;
@@ -66,7 +67,7 @@ begin
 
     carryflag : reg1bit port map (
         clk => clk,
-        rst => rst,
+        rst => reset,
         wr_en => Cf_wr_en,
         data_in => carry_flag,
         data_out => Cf_out_s
@@ -74,7 +75,7 @@ begin
 
     negativeflag : reg1bit port map (
         clk => clk,
-        rst => rst,
+        rst => reset,
         wr_en => Nf_wr_en,
         data_in => negative_flag,
         data_out => Nf_out_s
@@ -82,7 +83,7 @@ begin
 
     zeroflag : reg1bit port map (
         clk => clk,
-        rst => rst,
+        rst => reset,
         wr_en => Zf_wr_en,
         data_in => zero_flag,
         data_out => Zf_out_s
@@ -90,15 +91,17 @@ begin
 
     overflowflag : reg1bit port map (
         clk => clk,
-        rst => rst,
+        rst => reset,
         wr_en => Of_wr_en,
         data_in => overflow_flag,
         data_out => Of_out_s
     );
 
     opcode <= instruction(3 downto 0);
-    jump <= '1' when opcode = "1111" else '0';
-    jump_addr <= '0'&instruction(15 downto 10); --concatena
+    jump_abs <= '1' when opcode = "1111" else '0'; --jump
+    jump_rel <= '1' when opcode = "0101" or opcode = "0110"  else '0'; -- jc and jz
+
+    jump_addr <= instruction(13 downto 7); 
     -- reset <= '1' when opcode = "1111" else '0';
 
     fetchState_s <= '1' when state_s = "00" else '0';
@@ -132,11 +135,11 @@ begin
                  '0'; -- 1 for all R except for MOVR
     acc_wr_en <= tmp_acc_wr_en and decodeState_s;
 
-    tmp <= '1' when opcode = ""
+    --tmp <= '1' when opcode = ""
 
     state <= state_s;
 
     -- Set flags
-    tmp <= '1' when opcode = ""
+    --tmp <= "1" when opcode = "0111";
 
 end architecture;

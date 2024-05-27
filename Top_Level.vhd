@@ -26,7 +26,8 @@ architecture rtl of Top_Level is
         port (
             clk : in std_logic;
 
-            jump_flag : in std_logic;
+            jump_flag_abs : in std_logic;
+            jump_flag_rel : in std_logic;
             jump_addr : in unsigned(6 downto 0);
 
             PC_reset : in std_logic;
@@ -53,7 +54,8 @@ architecture rtl of Top_Level is
             negative_flag : in std_logic;
 
             jump_addr     : out unsigned(6 downto 0);
-            jump          : out std_logic;
+            jump_abs      : out std_logic;
+            jump_rel      : out std_logic;
             rb_mux        : out std_logic;
             rb_wr_en      : out std_logic;
             ula_selector  : out unsigned(1 downto 0);
@@ -97,7 +99,7 @@ architecture rtl of Top_Level is
              );
     end component;
 
-    signal jump_flag_s : std_logic;
+    signal jump_flag_s_abs, jump_flag_s_rel : std_logic;
     signal jump_addr_s : unsigned(6 downto 0);
     signal fetchState, decodeState, executeState : std_logic;
     signal state_s : unsigned(1 downto 0);
@@ -109,7 +111,7 @@ architecture rtl of Top_Level is
     signal Binstruction, Iinstruction, Rinstruction : std_logic;
     signal ula_selector : unsigned(1 downto 0);
     signal rd: unsigned(2 downto 0);
-    signal ula_bigger, ula_carry, ula_overflow, ula_smaller, ula_zero: std_logic;
+    signal ula_bigger, ula_carry, ula_overflow,ula_negative, ula_smaller, ula_zero: std_logic;
 
     signal ula_src_mux_s : std_logic;
     signal rb_mux_s, rb_wr_en_s: std_logic;
@@ -117,7 +119,8 @@ architecture rtl of Top_Level is
 begin
     PC_Adder_component : PC_Adder port map (
         clk => clk,
-        jump_flag => jump_flag_s,
+        jump_flag_abs => jump_flag_s_abs,
+        jump_flag_rel => jump_flag_s_rel,
         jump_addr => jump_addr_s,
         PC_reset => PC_reset,
         PC_wr_en => decodeState,
@@ -140,7 +143,8 @@ begin
         overflow_flag => ula_overflow,
         negative_flag => ula_negative,
 
-        jump          => jump_flag_s,
+        jump_abs          => jump_flag_s_abs,
+        jump_rel          => jump_flag_s_rel,
         jump_addr     => jump_addr_s,
         rb_mux        => rb_mux_s,
         rb_wr_en      => rb_wr_en_s,

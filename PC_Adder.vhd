@@ -6,7 +6,8 @@ entity PC_Adder is
     port (
         clk : in std_logic;
 
-        jump_flag : in std_logic;
+        jump_flag_abs : in std_logic;
+        jump_flag_rel : in std_logic;
         jump_addr : in unsigned(6 downto 0);
 
         PC_reset : in std_logic;
@@ -40,8 +41,9 @@ begin
         counter => PC_counter_s
     );
 
-    PC_datain_s <= PC_counter_s + "0000001" when jump_flag = '0' else
-                   jump_addr when jump_flag = '1';
+    PC_datain_s <=  jump_addr when jump_flag_abs = '1' else
+                    PC_counter_s + jump_addr when jump_flag_rel = '1' else
+                    PC_counter_s + "0000001";
 
     PC <= PC_counter_s;
 
