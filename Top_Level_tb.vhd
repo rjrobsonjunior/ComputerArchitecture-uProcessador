@@ -40,7 +40,7 @@ begin
 
     sim_time_proc: process
     begin
-        wait for 50 us;
+        wait for 150 us;
         finished <= '1';
         wait;
     end process sim_time_proc;
@@ -70,7 +70,7 @@ begin
 
         wait for period_time;
 
-        wait for period_time;
+        wait for period_time*6;
 
         wait;
 

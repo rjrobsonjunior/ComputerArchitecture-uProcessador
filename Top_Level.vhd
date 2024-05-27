@@ -143,8 +143,8 @@ begin
         overflow_flag => ula_overflow,
         negative_flag => ula_negative,
 
-        jump_abs          => jump_flag_s_abs,
-        jump_rel          => jump_flag_s_rel,
+        jump_abs      => jump_flag_s_abs,
+        jump_rel      => jump_flag_s_rel,
         jump_addr     => jump_addr_s,
         rb_mux        => rb_mux_s,
         rb_wr_en      => rb_wr_en_s,

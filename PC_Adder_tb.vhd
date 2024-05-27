@@ -7,22 +7,24 @@ end entity;
 
 architecture impl of PC_Adder_tb is
     component PC_Adder is
-        port(
+        port (
             clk : in std_logic;
-
-            jump_flag : in std_logic;
+    
+            jump_flag_abs : in std_logic;
+            jump_flag_rel : in std_logic;
             jump_addr : in unsigned(6 downto 0);
-
+    
             PC_reset : in std_logic;
             PC_wr_en : in std_logic;
             PC : out unsigned(6 downto 0)
+    
         );
     end component;
 
     signal clk : std_logic;
     signal PC_reset : std_logic := '0';
     signal PC_wr_en : std_logic := '1';
-    signal jump_flag : std_logic := '0';
+    signal jump_flag_abs, jump_flag_rel : std_logic := '0';
     signal jump_addr : unsigned(6 downto 0);
 
     constant period_time : time := 100 ns;
@@ -32,7 +34,8 @@ begin
 
     PC_Adder_component : PC_Adder port map (
         clk => clk,
-        jump_flag => jump_flag,
+        jump_flag_abs => jump_flag_abs,
+        jump_flag_rel => jump_flag_rel,
         jump_addr => jump_addr,
         PC_reset => PC_reset,
         PC_wr_en => PC_wr_en
@@ -61,19 +64,39 @@ begin
 
     process
     begin
-        wait for period_time * 2;
-
-
-
+        wait for period_time * 9;
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
+        jump_addr     <= "0000000"; 
         wait for period_time;
-
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '1';
+        jump_addr     <= "1111010"; 
         wait for period_time;
-
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
+        jump_addr     <= "1111010"; 
+        wait for period_time * 6;
+        jump_flag_abs <= '1'; 
+        jump_flag_rel <= '0';
+        jump_addr     <= "0000010";
+        wait for period_time*6;
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
+        wait for period_time*6;
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
         wait for period_time;
-        PC_reset <= '1';
-
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '1';
+        jump_addr     <= "1111011";
+        wait for period_time*6;
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
         wait for period_time;
-        PC_reset <= '0';
+        jump_flag_abs <= '0'; 
+        jump_flag_rel <= '0';
+        wait for period_time;
 
         wait for period_time;
 

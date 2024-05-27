@@ -23,8 +23,8 @@ R:
 | --      | --    | --    
 
 B:
-| Imm(9) | rd(3)  | Opcode(4)
-| --     | --     | --
+| Free(2) |Imm(7) | rd(3)  | Opcode(4)
+| --      |--     | --     | --
 
 ## Instruções
 
