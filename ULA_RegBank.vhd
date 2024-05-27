@@ -15,6 +15,8 @@ entity ULA_RegBank is
             ula_overflow    : out std_logic;
             ula_bigger      : out std_logic;
             ula_smaller     : out std_logic;
+            ula_zero        : out std_logic;
+            ula_negative    : out std_logic;
             ula_output      : out unsigned(15 downto 0);
             accumulator     : out unsigned(15 downto 0);
             rd_out          : out unsigned(15 downto 0)
@@ -38,7 +40,7 @@ architecture impl of ULA_RegBank is
                 selector : in unsigned(1 downto 0);
                 inputA, inputB : in unsigned(15 downto 0);
                 outResult : out unsigned(15 downto 0);
-                carry, overflow, bigger, smaller : out std_logic
+                carry, overflow, bigger, smaller, zero, negative : out std_logic
              );
     end component;
 
@@ -94,7 +96,9 @@ begin
                  carry => ula_carry,
                  overflow => ula_overflow,
                  bigger => ula_bigger,
-                 smaller => ula_smaller
+                 smaller => ula_smaller,
+                 zero => ula_zero,
+                 negative => ula_negative
              );
 
     regbank_component: RegisterBank

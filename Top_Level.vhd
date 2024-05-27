@@ -92,6 +92,9 @@ architecture rtl of Top_Level is
                 ula_overflow    : out std_logic;
                 ula_bigger      : out std_logic;
                 ula_smaller     : out std_logic;
+                ula_zero        : out std_logic;
+                ula_negative    : out std_logic;
+            
                 ula_output      : out unsigned(15 downto 0);
     
                 accumulator : out unsigned(15 downto 0);
@@ -187,6 +190,8 @@ begin
         ula_overflow     => ula_overflow,
         ula_bigger       => ula_bigger,
         ula_smaller      => ula_smaller,
+        ula_zero         => ula_zero,
+        ula_negative     => ula_negative,
         accumulator      => acc_out,
         rd_out           => rd_out
     );

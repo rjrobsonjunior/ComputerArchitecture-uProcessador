@@ -7,7 +7,7 @@ entity ULA is
         selector : in unsigned(1 downto 0);
         inputA, inputB : in unsigned(15 downto 0);
         outResult : out unsigned(15 downto 0);
-        carry, overflow, bigger, smaller : out std_logic
+        carry, overflow, bigger, smaller, zero, negative : out std_logic
     );
 end entity ULA;
 
@@ -43,7 +43,9 @@ begin
     bigger <= '1' when inputA > inputB else '0';
 
     smaller <= '1' when inputA < inputB else '0';
-
+    
+    zero <= '1' when parcialResult(15 downto 0) = x"0000" else '0';
+    negative <= parcialResult(15);
     carry <= parcialResult(16);
     overflow <= parcialResult(16);
     outResult <= parcialResult(15 downto 0);

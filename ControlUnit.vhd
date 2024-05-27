@@ -55,8 +55,8 @@ architecture rtl of ControlUnit is
     signal fetchState_s, decodeState_s, executeState_s : std_logic;
     signal tmp_rb_wr_en : std_logic;
 
-    signal Cf_out_s, Nf_out_s, Zf_out_s, Of_out_s : std_logic;
-    signal Cf_wr_en, Nf_wr_en, Zf_wr_en, Of_wr_en : std_logic;
+    signal Cf_out_s, Nf_out_s, Zf_out_s, Of_out_s : std_logic := '0';
+    signal Cf_wr_en , Nf_wr_en, Zf_wr_en, Of_wr_en : std_logic := '0';
     signal tmp: unsigned(15 downto 0);
 begin
     stateMachine_component : stateMachine port map (
@@ -101,6 +101,9 @@ begin
     jump_abs <= '1' when opcode = "1111" else '0'; --jump
     jump_rel <= '1' when opcode = "0101" or opcode = "0110"  else '0'; -- jc and jz
 
+    Cf_wr_en <= '1' when opcode = "0110" else '0'; -- jc
+    Zf_wr_en <= '1' when opcode = "0101" else '0'; -- jz
+    
     jump_addr <= instruction(13 downto 7); 
     -- reset <= '1' when opcode = "1111" else '0';
 
