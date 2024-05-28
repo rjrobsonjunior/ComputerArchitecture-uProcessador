@@ -1,13 +1,12 @@
-ld r3, 5   (A)
-ld r4, 8   (B)
-movA r3    (C)
-add r4     (C)
-movR r5    (C)
-addi -1    (D)
-movR r5    (D)
-jump 0x14  (E)
-ld r5, 0   (F)
-movA r5    (G)
-movR r3    (G)
-jump 0x02  (H)
-ld r5, 0   (I)
+ld r3, 0   (A) x"0038"
+ld r4, 0   (B) x"0048"
+movA r3    (C) x"003D"
+add r4     (C) x"0041"
+movR r4    (D) x"003E"
+movA r3    (D) x"003D"
+addi 1     (D) x"00D9"
+movR r3    (D) x"003E"
+cmp 30     (E) x"01E7"
+jz -7      (E) x"FD05"
+movA r4    (F) x"004D"
+movR r5    (F) x"005E"

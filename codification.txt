@@ -9,7 +9,11 @@ ld      ccccccccc ddd 1000
 addi    ccccccccc ddd 1001
 movA    xxxxxxxxx ddd 1101
 movR    xxxxxxxxx ddd 1110
-jump    ccccccccc ddd 1111
+cmp     cccccccccccc  0111
+jz      cccccccccccc  0101
+jc      cccccccccccc  0110
+jump    cccccccccccc  1111
+
 
 Onde:
     ddd é o registrador destino
