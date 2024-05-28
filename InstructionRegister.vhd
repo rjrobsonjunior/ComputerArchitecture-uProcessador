@@ -26,7 +26,7 @@ architecture rtl of InstructionRegister is
 signal Iinstruction, Binstruction, Rinstruction : std_logic;
 signal InstructionSave : unsigned (15 downto 0);
 signal tmpImmI : unsigned (6 downto 0);
-signal tmpImmB : unsigned (9 downto 0);
+signal tmpImmB : unsigned (3 downto 0);
 begin
     componentInstruction : reg16bits port map (
         clk      => clk,
@@ -36,8 +36,8 @@ begin
         data_out => InstructionSave
     );
     ----------------------- 
-    Binstruction <= '1' when InstructionSave(3 downto 0) = "0101" else --beq
-                    '1' when InstructionSave(3 downto 0) = "0110" else --bge
+    Binstruction <= '1' when InstructionSave(3 downto 0) = "0101" else --jz
+                    '1' when InstructionSave(3 downto 0) = "0110" else --jc
                     '1' when InstructionSave(3 downto 0) = "0111" else --cmp
                     '1' when InstructionSave(3 downto 0) = "1111" else --jump
                     '0';
@@ -65,11 +65,11 @@ begin
     
     tmpImmI <= "1111111" when InstructionSave(15) = '1' else
                "0000000";
-    tmpImmB <= "1111111111" when InstructionSave(15) = '1' else
-               "0000000000";
+    tmpImmB <= "1111" when InstructionSave(15) = '1' else
+               "0000";
 
     ImmValue <= tmpImmI&InstructionSave(15 downto 7) when Iinstruction = '1' else
-                tmpImmB&InstructionSave(15 downto 10) when BInstruction = '1' else 
+                tmpImmB&InstructionSave(15 downto 4) when BInstruction = '1' else 
                 x"0000";
                             
 end architecture;

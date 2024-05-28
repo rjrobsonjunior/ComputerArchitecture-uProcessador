@@ -99,14 +99,16 @@ begin
 
     opcode <= instruction(3 downto 0);
     jump_abs <= '1' when opcode = "1111" else '0'; --jump
-    jump_rel <= '1' when opcode = "0101" or opcode = "0110"  else '0'; -- jc and jz
+
+    jump_rel <= '1' when opcode = "0101" and Zf_out_s = '0'  else        -- jz
+                '1' when opcode = "0110" and Cf_out_s = '0' else '0';   -- jc
 
     Cf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     Zf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     Of_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     Nf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     
-    jump_addr <= instruction(13 downto 7); 
+    jump_addr <= instruction(10 downto 4); 
     -- reset <= '1' when opcode = "1111" else '0';
 
     fetchState_s <= '1' when state_s = "00" else '0';
@@ -117,11 +119,13 @@ begin
     decodeState <= decodeState_s;
     executeState <= executeState_s;
 
-    rb_mux <= '1' when opcode = "1000" else '0'; -- ld
+    rb_mux <= '1' when opcode = "1000" else '0'; -- ld 
     tmp_rb_wr_en <= '1' when opcode = "1000" or opcode = "1110" else '0'; -- ld or movr
+        
     rb_wr_en <= tmp_rb_wr_en and decodeState_s;
 
-    ula_src_mux  <= '1' when opcode = "1001" else '0'; --addi
+    ula_src_mux  <= '1' when opcode = "1001" or opcode = "0111" else '0'; --addi and cmp
+
     ula_selector <= "00" when opcode = "1001" else -- addi
                     "00" when opcode = "0001" else -- add
                     "01" when opcode = "0010" else -- sub

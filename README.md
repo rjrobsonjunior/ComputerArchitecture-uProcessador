@@ -23,8 +23,8 @@ R:
 | --      | --    | --    
 
 B:
-| Free(2) |Imm(7) | rd(3)  | Opcode(4)
-| --      |--     | --     | --
+| Imm(12) | Opcode(4)
+| --      | --
 
 ## Instruções
 
@@ -38,7 +38,7 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 5| and       | 0100   | R    | A =and rd
 | 6| jz        | 0101   | B    |
 | 7| jc        | 0110   | B    |
-| 8| cmp       | 0111   | B    |
+| 8| cmp       | 0111   | I    |
 | 9| ld        | 1000   | I    | rd = Imm
 |10| addi      | 1001   | I    | A += Imm
 |11| sw        | 1010   | I    | 
