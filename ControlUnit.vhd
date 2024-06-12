@@ -12,15 +12,17 @@ entity ControlUnit is
         overflow_flag : in std_logic;
         negative_flag : in std_logic;
 
+        ram_wr_en     : out std_logic;
+
         jump_addr     : out unsigned(6 downto 0);
-        jump_abs          : out std_logic;
-        jump_rel          : out std_logic;
+        jump_abs      : out std_logic;
+        jump_rel      : out std_logic;
 
         rb_mux        : out std_logic;
         rb_wr_en      : out std_logic;
         ula_src_mux   : out std_logic;
         ula_selector  : out unsigned(1 downto 0);
-        acc_mux       : out std_logic;
+        acc_mux       : out unsigned(1 downto 0);
         acc_wr_en     : out std_logic;
 
         fetchState, decodeState, executeState  : out std_logic;
@@ -54,6 +56,7 @@ architecture rtl of ControlUnit is
     signal tmp_acc_wr_en : std_logic;
     signal fetchState_s, decodeState_s, executeState_s : std_logic;
     signal tmp_rb_wr_en : std_logic;
+    signal tmp_ram_wr_en : std_logic;
 
     signal Cf_out_s, Nf_out_s, Zf_out_s, Of_out_s : std_logic := '0';
     signal Cf_wr_en , Nf_wr_en, Zf_wr_en, Of_wr_en : std_logic := '0';
@@ -134,15 +137,22 @@ begin
                     "10" when opcode = "0100" else -- and
                     "00";
 
-    acc_mux <= '1' when opcode = "1101" else '0'; --mova
+    acc_mux <= "01" when opcode = "1101" else -- mova
+               "10" when opcode = "1011" else -- lw
+               "00";
+
     tmp_acc_wr_en <= '1' when opcode = "0001" else --add
                  '1' when opcode = "0010" else --sub
                  '1' when opcode = "0011" else --xor
                  '1' when opcode = "0100" else --and
                  '1' when opcode = "1101" else --movA
                  '1' when opcode = "1001" else --addi
+                 '1' when opcode = "1011" else --lw
                  '0'; -- 1 for all R except for MOVR
     acc_wr_en <= tmp_acc_wr_en and decodeState_s;
+
+    tmp_ram_wr_en <= '1' when opcode = "1100" else '0'; -- sw 
+    ram_wr_en <= tmp_ram_wr_en and decodeState_s; -- sw
 
     --tmp <= '1' when opcode = ""
 
