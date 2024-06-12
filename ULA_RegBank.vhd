@@ -7,9 +7,10 @@ entity ULA_RegBank is
             clk, rst, wr_en, acc_wr_en : in std_logic;
             rb_mux_selector          : in std_logic;
             ula_src_selector         : in std_logic;
-            acc_mux_selector         : in std_logic;
+            acc_mux_selector         : in unsigned(1 downto 0);
             rd_address      : in unsigned(2 downto 0);
             imm_value       : in unsigned(15 downto 0);
+            ram_out         : in unsigned(15 downto 0);
             ula_selector    : in unsigned(1 downto 0);
             ula_carry       : out std_logic;
             ula_overflow    : out std_logic;
@@ -31,6 +32,16 @@ architecture impl of ULA_RegBank is
                  input_signal : in std_logic;
                  input0       : in unsigned(15 downto 0);
                  input1       : in unsigned(15 downto 0);
+                 output       : out unsigned(15 downto 0)
+             );
+    end component;
+    
+    component MUX2BITS is
+        port (
+                 input_signal : in unsigned(1 downto 0);
+                 input0       : in unsigned(15 downto 0);
+                 input1       : in unsigned(15 downto 0);
+                 input2       : in unsigned(15 downto 0);
                  output       : out unsigned(15 downto 0)
              );
     end component;
@@ -78,11 +89,12 @@ begin
                  output => out_mux_ula_src
              );
     
-    mux_Acc: MUX2_16
+    mux_Acc: MUX2BITS
     port map (
                 input_signal => acc_mux_selector,
                 input0 => ula_out_signal,
                 input1 => regbank_read_data1,
+                input2 => ram_out,
                 output => out_acc_mux
             );
 

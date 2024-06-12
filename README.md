@@ -42,6 +42,8 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 9| ld        | 1000   | I    | rd = Imm
 |10| addi      | 1001   | I    | A += Imm
 |. | ...       | ...    | .    | ...
+|12| lw        | 1011   | R    | 
+|13| sw        | 1100   | R    | 
 |14| movA      | 1101   | R    | A = rd
 |15| movR      | 1110   | R    | rd = A
 |16| jump      | 1111   | B    |

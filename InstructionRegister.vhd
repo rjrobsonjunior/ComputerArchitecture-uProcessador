@@ -36,15 +36,14 @@ begin
         data_out => InstructionSave
     );
     ----------------------- 
-    Binstruction <= '1' when InstructionSave(3 downto 0) = "0101" else --jz
-                    '1' when InstructionSave(3 downto 0) = "0110" else --jc
-                    '1' when InstructionSave(3 downto 0) = "0111" else --cmp
-                    '1' when InstructionSave(3 downto 0) = "1111" else --jump
+    Binstruction <= '1' when InstructionSave(3 downto 0) = "0101" else -- jz
+                    '1' when InstructionSave(3 downto 0) = "0110" else -- jc
+                    '1' when InstructionSave(3 downto 0) = "0111" else -- cmp
+                    '1' when InstructionSave(3 downto 0) = "1111" else -- jump
                     '0';
     B_format_instruction <= Binstruction;
     
-    Iinstruction <= '1' when InstructionSave(3 downto 0) = "1010" else -- sw
-                    '1' when InstructionSave(3 downto 0) = "1011" else -- lw
+    Iinstruction <= 
                     '1' when InstructionSave(3 downto 0) = "1001" else -- addi
                     '1' when InstructionSave(3 downto 0) = "1000" else -- ld
                     '0';
@@ -52,12 +51,14 @@ begin
 
 
 
-    Rinstruction <= '1' when InstructionSave(3 downto 0) = "0001" else --add
-                    '1' when InstructionSave(3 downto 0) = "0010" else --sub
-                    '1' when InstructionSave(3 downto 0) = "0011" else --xor
-                    '1' when InstructionSave(3 downto 0) = "0100" else --and
-                    '1' when InstructionSave(3 downto 0) = "1101" else --movA
-                    '1' when InstructionSave(3 downto 0) = "1110" else --movR
+    Rinstruction <= '1' when InstructionSave(3 downto 0) = "0001" else -- add
+                    '1' when InstructionSave(3 downto 0) = "0010" else -- sub
+                    '1' when InstructionSave(3 downto 0) = "0011" else -- xor
+                    '1' when InstructionSave(3 downto 0) = "0100" else -- and
+                    '1' when InstructionSave(3 downto 0) = "1011" else -- lw
+                    '1' when InstructionSave(3 downto 0) = "1100" else -- sw
+                    '1' when InstructionSave(3 downto 0) = "1101" else -- movA
+                    '1' when InstructionSave(3 downto 0) = "1110" else -- movR
                     '0';
     R_format_instruction <= Rinstruction;
 

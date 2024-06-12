@@ -44,6 +44,16 @@ architecture rtl of Top_Level is
         );
     end component;
 
+    component RAM is
+        port (
+            clk : in std_logic;
+            addr : in unsigned(15 downto 0);
+            wr_en : in std_logic;
+            data_in : in unsigned(15 downto 0);
+            data_out : out unsigned(15 downto 0)
+        );
+    end component;
+
     component ControlUnit is 
         port (
             clk           : in std_logic;
@@ -53,6 +63,7 @@ architecture rtl of Top_Level is
             overflow_flag : in std_logic;
             negative_flag : in std_logic;
 
+            ram_wr_en     : out std_logic;
             jump_addr     : out unsigned(6 downto 0);
             jump_abs      : out std_logic;
             jump_rel      : out std_logic;
@@ -60,7 +71,7 @@ architecture rtl of Top_Level is
             rb_wr_en      : out std_logic;
             ula_selector  : out unsigned(1 downto 0);
             ula_src_mux   : out std_logic;
-            acc_mux       : out std_logic;
+            acc_mux       : out unsigned(1 downto 0);
             acc_wr_en     : out std_logic;
             fetchState, decodeState, executeState  : out std_logic;
             state         : out unsigned(1 downto 0)
@@ -79,23 +90,24 @@ architecture rtl of Top_Level is
 
     component ULA_RegBank is
         port (
-                clk, rst, wr_en : in std_logic;
-                rd_address     : in unsigned(2 downto 0);
-                rb_mux_selector : in std_logic;
+                clk, rst, wr_en  : in std_logic;
+                rd_address       : in unsigned(2 downto 0);
+                rb_mux_selector  : in std_logic;
                 ula_src_selector : in std_logic;
-                ula_selector    : in unsigned(1 downto 0);
-                acc_wr_en       : in std_logic;
-                acc_mux_selector : in std_logic;
-                imm_value       : in unsigned(15 downto 0);
+                ula_selector     : in unsigned(1 downto 0);
+                acc_wr_en        : in std_logic;
+                acc_mux_selector : in unsigned(1 downto 0);
+                imm_value        : in unsigned(15 downto 0);
+                ram_out          : in unsigned(15 downto 0);
 
-                ula_carry       : out std_logic;
-                ula_overflow    : out std_logic;
-                ula_bigger      : out std_logic;
-                ula_smaller     : out std_logic;
-                ula_zero        : out std_logic;
-                ula_negative    : out std_logic;
+                ula_carry    : out std_logic;
+                ula_overflow : out std_logic;
+                ula_bigger   : out std_logic;
+                ula_smaller  : out std_logic;
+                ula_zero     : out std_logic;
+                ula_negative : out std_logic;
             
-                ula_output      : out unsigned(15 downto 0);
+                ula_output : out unsigned(15 downto 0);
     
                 accumulator : out unsigned(15 downto 0);
                 rd_out      : out unsigned(15 downto 0)
@@ -117,8 +129,15 @@ architecture rtl of Top_Level is
     signal ula_bigger, ula_carry, ula_overflow,ula_negative, ula_smaller, ula_zero: std_logic;
 
     signal ula_src_mux_s : std_logic;
-    signal rb_mux_s, rb_wr_en_s: std_logic;
-    signal acc_mux_s, acc_wr_en_s: std_logic;
+    signal rb_mux_s    : std_logic;
+    signal rb_wr_en_s  : std_logic;
+    signal acc_mux_s   : unsigned(1 downto 0);
+    signal acc_wr_en_s : std_logic;
+    signal ram_wr_en_s : std_logic;
+
+    signal ram_out_s   : unsigned(15 downto 0);
+    signal rd_out_s    : unsigned(15 downto 0);
+    signal acc_out_s   : unsigned(15 downto 0);
 begin
     PC_Adder_component : PC_Adder port map (
         clk => clk,
@@ -137,6 +156,14 @@ begin
 
         data => data_s
     );
+
+    RAM_component : RAM port map (
+        clk => clk,
+        addr => rd_out_s,
+        wr_en => ram_wr_en_s,
+        data_in => acc_out_s,
+        data_out => ram_out_s
+    );
     
     ControlUnit_component : ControlUnit port map (
         clk           => clk,
@@ -146,6 +173,7 @@ begin
         overflow_flag => ula_overflow,
         negative_flag => ula_negative,
 
+        ram_wr_en     => ram_wr_en_s,
         jump_abs      => jump_flag_s_abs,
         jump_rel      => jump_flag_s_rel,
         jump_addr     => jump_addr_s,
@@ -184,6 +212,7 @@ begin
         acc_wr_en        => acc_wr_en_s,
         acc_mux_selector => acc_mux_s,
         imm_value        => immediate_s,
+        ram_out          => ram_out_s,
 
         ula_output       => ula_out,
         ula_carry        => ula_carry,
@@ -192,11 +221,13 @@ begin
         ula_smaller      => ula_smaller,
         ula_zero         => ula_zero,
         ula_negative     => ula_negative,
-        accumulator      => acc_out,
-        rd_out           => rd_out
+        accumulator      => acc_out_s,
+        rd_out           => rd_out_s
     );
     data <= data_s;
     state <= state_s;
     PC <= current_addr_s;
+    rd_out <= rd_out_s;
+    acc_out <= acc_out_s;
 
 end architecture;
