@@ -59,7 +59,7 @@ architecture rtl of ControlUnit is
     signal tmp_ram_wr_en : std_logic;
 
     signal Cf_out_s, Nf_out_s, Zf_out_s, Of_out_s : std_logic := '0';
-    signal Cf_wr_en , Nf_wr_en, Zf_wr_en, Of_wr_en : std_logic := '0';
+    signal flags_wren : std_logic := '0';
     signal tmp: unsigned(15 downto 0);
 begin
     stateMachine_component : stateMachine port map (
@@ -71,7 +71,7 @@ begin
     carryflag : reg1bit port map (
         clk => clk,
         rst => reset,
-        wr_en => Cf_wr_en,
+        wr_en => flags_wren,
         data_in => carry_flag,
         data_out => Cf_out_s
     );
@@ -79,7 +79,7 @@ begin
     negativeflag : reg1bit port map (
         clk => clk,
         rst => reset,
-        wr_en => Nf_wr_en,
+        wr_en => flags_wren,
         data_in => negative_flag,
         data_out => Nf_out_s
     );
@@ -87,7 +87,7 @@ begin
     zeroflag : reg1bit port map (
         clk => clk,
         rst => reset,
-        wr_en => Zf_wr_en,
+        wr_en => flags_wren,
         data_in => zero_flag,
         data_out => Zf_out_s
     );
@@ -95,21 +95,18 @@ begin
     overflowflag : reg1bit port map (
         clk => clk,
         rst => reset,
-        wr_en => Of_wr_en,
+        wr_en => flags_wren,
         data_in => overflow_flag,
         data_out => Of_out_s
     );
-
+    --                              cmp                addi               add                 sub                xor           and
+    flags_wren <= '1' when opcode = "0111" or opcode = "1001" or opcode = "0001" or opcode = "0010" or  opcode = "0011" or opcode = "0100" else '0';
+    
     opcode <= instruction(3 downto 0);
     jump_abs <= '1' when opcode = "1111" else '0'; --jump
 
     jump_rel <= '1' when opcode = "0101" and Zf_out_s = '0'  else        -- jz
                 '1' when opcode = "0110" and Cf_out_s = '0' else '0';   -- jc
-
-    Cf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
-    Zf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
-    Of_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
-    Nf_wr_en <= '1' when opcode = "0111" and decodeState_s ='1' else '0'; -- cmp
     
     jump_addr <= instruction(10 downto 4); 
     -- reset <= '1' when opcode = "1111" else '0';
