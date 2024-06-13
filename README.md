@@ -41,11 +41,11 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 8| cmp       | 0111   | I    |    
 | 9| ld        | 1000   | I    | rd = Imm
 |10| addi      | 1001   | I    | A += Imm
-|11| lw        | 1010   | I    | RAM[rd] = Imm
-|12| sw        | 1011   | I    | rd = RAM[Imm]
 |. | ...       | ...    | .    | ...
-|12| lw        | 1011   | R    | 
-|13| sw        | 1100   | R    | 
+|12| lw        | 1011   | R    | RAM[rd] = Imm 
+|13| sw        | 1100   | R    | rd = RAM[Imm] 
 |14| movA      | 1101   | R    | A = rd
 |15| movR      | 1110   | R    | rd = A
 |16| jump      | 1111   | B    |
+
+# TODO test if movR is bugged (was sending zero to register regardless of input)
