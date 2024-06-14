@@ -99,7 +99,7 @@ begin
         data_in => overflow_flag,
         data_out => Of_out_s
     );
-    --                              cmp                addi               add                 sub                xor           and
+    --                              cmp                addi                add                sub                 xor                 and
     flags_wren <= '1' when opcode = "0111" or opcode = "1001" or opcode = "0001" or opcode = "0010" or  opcode = "0011" or opcode = "0100" else '0';
     
     opcode <= instruction(3 downto 0);
