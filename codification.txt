@@ -7,6 +7,9 @@ xor     xxxxxxxxx ddd 0011
 and     xxxxxxxxx ddd 0100
 ld      ccccccccc ddd 1000
 addi    ccccccccc ddd 1001
+
+lw      xxxxxxxxx ddd 1011
+sw      xxxxxxxxx ddd 1100
 movA    xxxxxxxxx ddd 1101
 movR    xxxxxxxxx ddd 1110
 cmp     cccccccccccc  0111
