@@ -4,3 +4,4 @@
 .hdl_checker
 *.sync-conflict-*
 *.gtkw
+*.py
