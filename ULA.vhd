@@ -26,17 +26,20 @@ signal sumResult : unsigned (16 downto 0) := "00000000000000000";
 signal subResult : unsigned (16 downto 0) := "00000000000000000";
 signal xorResult : unsigned (16 downto 0) := "00000000000000000";
 signal andResult : unsigned (16 downto 0) := "00000000000000000";
+signal cmpResult : unsigned (16 downto 0) := "00000000000000000";
 
 begin
 
     sumResult <= ('0'&inputA) + ('0'&inputB);
-    subResult <= ('0'&inputA) - ('0'&inputB);
+    subResult <= ('0'&inputB) - ('0'&inputA);
+    cmpResult <= ('0'&inputA) - ('0'&inputB);
     xorResult <= ('0'&inputA) xor ('0'&inputB);
     andResult <= ('0'&inputA) and ('0'&inputB);
 
     parcialResult <= sumResult when selector="00" else
                      subResult when selector="01" else
-                     xorResult when selector="10" else
+                     cmpResult when selector="10" else
+                     xorResult when selector="11" else
                      andResult when selector="11" else
                      "00000000000000000";
 

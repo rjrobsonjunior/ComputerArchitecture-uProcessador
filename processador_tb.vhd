@@ -53,7 +53,7 @@ begin
 
     sim_time_proc: process
     begin
-        wait for 10000 us;
+        wait for 120 ms;
         finished <= '1';
         wait;
     end process sim_time_proc;

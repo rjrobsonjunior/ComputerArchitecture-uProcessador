@@ -129,9 +129,9 @@ begin
     ula_selector <= "00" when opcode = "1001" else -- addi
                     "00" when opcode = "0001" else -- add
                     "01" when opcode = "0010" else -- sub
-                    "01" when opcode = "0111" else -- cmp
-                    "10" when opcode = "0011" else -- xor
-                    "10" when opcode = "0100" else -- and
+                    "10" when opcode = "0111" else -- cmp
+                    "11" when opcode = "0011" else -- xor
+                    "11" when opcode = "0100" else -- and
                     "00";
 
     acc_mux <= "01" when opcode = "1101" else -- mova

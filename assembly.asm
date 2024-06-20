@@ -6,9 +6,9 @@ movA r1
 add r7
 movR r1
 sw  r1
-cmp 1024
+cmp 2047
 jz -4
-//A.2 2047 - 4094
+//A.2 2047 - 4095
 movR r2
 movA r1
 add r7
@@ -17,7 +17,7 @@ sw  r1
 sub r2
 cmp 2047
 jz -6
-//A.3 4094 - 6141
+//A.3 4095 - 6141
 movR r2
 movA r1
 add r7
