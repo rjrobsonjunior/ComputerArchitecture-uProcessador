@@ -104,7 +104,8 @@ begin
     opcode <= instruction(3 downto 0);
     jump_abs <= '1' when opcode = "1111" else '0'; --jump
 
-    jump_rel <= '1' when opcode = "0101" and Zf_out_s = '0'  else        -- jz
+    jump_rel <= '1' when opcode = "0101" and Zf_out_s = '0' else        -- jz
+                '1' when opcode = "1010" and Nf_out_s = '0' else        -- jn
                 '1' when opcode = "0110" and Cf_out_s = '0' else '0';   -- jc
     
     jump_addr <= instruction(10 downto 4); 

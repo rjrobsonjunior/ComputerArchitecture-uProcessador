@@ -41,7 +41,7 @@ Os opcodes são formados pelos 4 bits menos significativos.
 | 8| cmp       | 0111   | I    |    
 | 9| ld        | 1000   | I    | rd = Imm
 |10| addi      | 1001   | I    | A += Imm
-|. | ...       | ...    | .    | ...
+|11| jn        | 1010   | B    |
 |12| lw        | 1011   | R    | RAM[rd] = A
 |13| sw        | 1100   | R    | A = RAM[rd] 
 |14| movA      | 1101   | R    | A = rd

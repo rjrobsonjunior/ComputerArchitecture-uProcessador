@@ -38,6 +38,7 @@ begin
     ----------------------- 
     Binstruction <= '1' when InstructionSave(3 downto 0) = "0101" else -- jz
                     '1' when InstructionSave(3 downto 0) = "0110" else -- jc
+                    '1' when InstructionSave(3 downto 0) = "1010" else -- jn
                     '1' when InstructionSave(3 downto 0) = "0111" else -- cmp
                     '1' when InstructionSave(3 downto 0) = "1111" else -- jump
                     '0';
