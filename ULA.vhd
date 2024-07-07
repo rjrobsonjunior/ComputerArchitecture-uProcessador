@@ -50,6 +50,8 @@ begin
     zero <= '1' when parcialResult(15 downto 0) = x"0000" else '0';
     negative <= parcialResult(15);
     carry <= parcialResult(16);
-    overflow <= parcialResult(16);
+    overflow <= '1' when (parcialResult(15) = '1' and inputA(15) = '0' and inputB(15) = '0') else
+                '1' when (parcialResult(15) = '0' and inputA(15) = '1' and inputB(15) = '1') else
+                '0';
     outResult <= parcialResult(15 downto 0);
 end ULA_arch;
